@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +11,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/shop', function () {
-    return view('shop');
-});
-Route::get('/', function (){
-   return view('index');
-});
+//Route::get('/', 'App\Http\Controllers\MainController@index');
+//Route::get('/shop', 'App\Http\Controllers\MainController@shop');
+//Route::get('/product/{product?}', 'App\Http\Controllers\MainController@product');
+Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@test');

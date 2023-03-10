@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//Route::get('/', 'App\Http\Controllers\MainController@index');
-//Route::get('/shop', 'App\Http\Controllers\MainController@shop');
-//Route::get('/product/{product?}', 'App\Http\Controllers\MainController@product');
-Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@test');
+Route::get('/', 'App\Http\Controllers\MainController@index');
+Route::get('/shop', 'App\Http\Controllers\MainController@shop');
+Route::get('/categories', 'App\Http\Controllers\MainController@categories');
+Route::get('/category/{product?}', 'App\Http\Controllers\MainController@product');
+Route::get('/{category}', 'App\Http\Controllers\MainController@category');
+Route::get('/checkout', 'App\Http\Controllers\MainController@checkout');

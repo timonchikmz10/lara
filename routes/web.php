@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\MainController@index');
 Route::get('/shop', 'App\Http\Controllers\MainController@shop');
 Route::get('/categories', 'App\Http\Controllers\MainController@categories');
-Route::get('/category/{product?}', 'App\Http\Controllers\MainController@product');
-Route::get('/{category}', 'App\Http\Controllers\MainController@category');
+Route::get('/covers/{product?}', 'App\Http\Controllers\MainController@product');
 Route::get('/checkout', 'App\Http\Controllers\MainController@checkout');
+Route::get('/{category}', 'App\Http\Controllers\MainController@category');
+

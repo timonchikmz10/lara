@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', 'App\Http\Controllers\MainController@index');
-Route::get('/shop', 'App\Http\Controllers\MainController@shop');
-Route::get('/categories', 'App\Http\Controllers\MainController@categories');
-Route::get('/covers/{product?}', 'App\Http\Controllers\MainController@product');
-Route::get('/checkout', 'App\Http\Controllers\MainController@checkout');
-Route::get('/{category}', 'App\Http\Controllers\MainController@category');
+Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
+Route::get('/categories', 'App\Http\Controllers\MainController@categories')->name('categories');
+Route::get('/shop', 'App\Http\Controllers\MainController@shop')->name('shop');
+Route::get('/basket', 'App\Http\Controllers\MainController@basket')->name('basket');
+Route::get('/{category}', 'App\Http\Controllers\MainController@category')->name('category');
+Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@product')->name('product');
+Route::get('/basket/order', 'App\Http\Controllers\MainController@order')->name('order');
+
+
 

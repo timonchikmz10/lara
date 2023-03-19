@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('code');
             $table->text('short_description')->nullable();
             $table->double('price')->default(0);
+            $table->double('sale_price')->default(0);
+            $table->boolean('new')->nullable();
             $table->timestamps();
         });
     }

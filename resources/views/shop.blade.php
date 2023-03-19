@@ -11,7 +11,7 @@
                     <li><a href="#">Home</a></li>
                     <li><a href="#">All Categories</a></li>
                     <li><a href="#">Accessories</a></li>
-                    <li class="active">Headphones (227,490 Results)</li>
+                    <li class="active">Headphones ({{$products->count()}} Results)</li>
                 </ul>
             </div>
         </div>

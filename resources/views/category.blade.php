@@ -3,8 +3,9 @@
     @section('title', $category->title)
     @section('content')
         <h1><p>{{$category->title}}</p></h1>
-        {{$category->description}}
-        @foreach($products as $product)
+        <h2>{{$category->description}}</h2>
+        <h3>Товарів({{$category->products->count()}})</h3>
+        @foreach($category->products as $product)
             @include('card', ['product'=>$product])
         @endforeach
     @endsection

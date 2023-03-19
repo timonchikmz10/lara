@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function index(){
-        return view('index');
+        $categories = Category::get();
+        return view('index',compact('categories'));
     }
-
     public function shop()
     {
         $products = Product::get();
@@ -27,8 +27,7 @@ class MainController extends Controller
     public function category($code)
     {
         $category = Category::where('code', $code)->first();
-        $products = Product::where('category_id', $category->id)->get();
-        return view('category', compact('category', 'products'));
+        return view('category', compact('category'));
     }
 
     public function product($category, $product = null)
@@ -36,12 +35,5 @@ class MainController extends Controller
         return view('product', ['product' => $product]);
     }
 
-    public function order()
-    {
-        return view('order');
-    }
-    public function basket()
-    {
-        return view('basket');
-    }
+
 }

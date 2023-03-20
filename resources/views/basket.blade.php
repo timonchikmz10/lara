@@ -22,7 +22,7 @@
                                                     <div class="row">
                                                         <div class="col-md-5 product-name">
                                                             <div class="product-name">
-                                                                <a href="{{route('product', [ $product->category,$product->code])}}">{{$product->title}}</a>
+                                                                <a href="{{route('product', [ $product->category->code, $product->code])}}">{{$product->title}}</a>
                                                                 <div class="product-info">
                                                                     <div>Display: <span class="value">5 inch</span>
                                                                     </div>
@@ -33,14 +33,20 @@
                                                         </div>
                                                         <div class="col-md-4 quantity">
                                                             <div class="input-group">
-                                                                <input type="button" value="-" class="button-minus" data-field="quantity">
-                                                                <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field">
-                                                                <input type="button" value="+" class="button-plus" data-field="quantity">
+                                                                <form style = "display: inline-block;" action="{{route('basket-remove', $product)}}" method="POST">
+                                                                    <button type="submit"  class="button-minus" >-</button>
+                                                                @csrf
+                                                                </form>
+                                                                <input style="left:0px" readonly value="{{$product->pivot->count}}" type="number" step="1" max="" name="quantity" class="quantity-field">
+                                                                <form style = "display: inline-block " action="{{route('basket-add', $product)}}" method="POST">
+                                                                    <button type="submit"  class="button-plus" >+</button>
+                                                                @csrf
+                                                                </form>
                                                             </div>
 
                                                         </div>
                                                         <div class="col-md-3 price">
-                                                            <span>{{$product->price}} ₴</span>
+                                                            <span>{{$product->priceForCount()}} ₴</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -59,7 +65,7 @@
                                         class="price">$0</span></div>
                                 <div class="summary-item"><span class="text">Shipping</span><span
                                         class="price">$0</span></div>
-                                <div class="summary-item"><span class="text">Total</span><span class="price">$360</span>
+                                <div class="summary-item"><span class="text">Total</span><span class="price">₴{{ $order->fullPrice() }}</span>
                                 </div>
                                 <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
                             </div>

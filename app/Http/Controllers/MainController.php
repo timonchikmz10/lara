@@ -12,6 +12,7 @@ class MainController extends Controller
         $categories = Category::get();
         return view('index',compact('categories'));
     }
+
     public function shop()
     {
         $products = Product::get();

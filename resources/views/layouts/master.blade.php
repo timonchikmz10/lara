@@ -183,6 +183,15 @@
     <!-- /container -->
 </nav>
 <!-- /NAVIGATION -->
+@if(session()->has('success'))
+    <div style="text-align: center" class="alert alert-success" role="alert">
+        {{session()->get('success')}}
+    </div>
+@elseif(session()->has('warning'))
+    <div style="text-align: center" class="alert alert-warning" role="alert">
+        {{session()->get('warning')}}
+    </div>
+@endif
 @yield('content')
 <!-- FOOTER -->
 <footer id="footer">

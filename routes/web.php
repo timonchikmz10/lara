@@ -16,6 +16,7 @@ Route::get('/categories', 'App\Http\Controllers\MainController@categories')->nam
 Route::get('/shop', 'App\Http\Controllers\MainController@shop')->name('shop');
 Route::get('/basket', 'App\Http\Controllers\BasketController@basket')->name('basket');
 Route::get('/basket/order', 'App\Http\Controllers\BasketController@basketPlace')->name('order');
+Route::post('/basket/confirm', 'App\Http\Controllers\BasketController@orderConfirm')->name('order-confirm');
 Route::get('/{category}', 'App\Http\Controllers\MainController@category')->name('category');
 Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@product')->name('product');
 Route::post('/basket/add/{id}', 'App\Http\Controllers\BasketController@basketAdd')->name('basket-add');

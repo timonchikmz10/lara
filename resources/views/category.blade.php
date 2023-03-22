@@ -1,4 +1,4 @@
-@extends('master')
+@extends('layouts.master')
 @if($category != null)
     @section('title', $category->title)
     @section('content')
@@ -6,7 +6,7 @@
         <h2>{{$category->description}}</h2>
         <h3>Товарів({{$category->products->count()}})</h3>
         @foreach($category->products as $product)
-            @include('card', ['product'=>$product])
+            @include('layouts.card', ['product'=>$product])
         @endforeach
     @endsection
 @else

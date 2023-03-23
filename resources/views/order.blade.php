@@ -37,10 +37,12 @@
                                 <h3 class="title">Billing address</h3>
                             </div>
                             <div class="form-group">
-                                <input class="input" id="first_name" type="text" name="first_name" placeholder="First Name">
+                                <input class="input" id="first_name" type="text" name="first_name"
+                                       placeholder="First Name">
                             </div>
                             <div class="form-group">
-                                <input class="input" id="last_name" type="text" name="last_name" placeholder="Last Name">
+                                <input class="input" id="last_name" type="text" name="last_name"
+                                       placeholder="Last Name">
                             </div>
                             <div class="form-group">
                                 <input class="input" id="email" type="email" name="email" placeholder="Email">
@@ -60,23 +62,29 @@
                             <div class="form-group">
                                 <input class="input" id="phone" type="tel" name="phone" placeholder="Telephone">
                             </div>
-                            <div class="form-group">
-                                <div class="input-checkbox">
-                                    <input type="checkbox" id="create-account">
-                                    <label for="create-account">
-                                        <span></span>
-                                        Create Account?
-                                    </label>
-                                    <div class="caption">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt.</p>
-                                        <input class="input" type="password" name="password"
-                                               placeholder="Enter Your Password">
+                            @auth
+                                <div class="form-group">
+
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <div class="input-checkbox">
+                                        <input type="checkbox" id="create-account">
+                                        <label for="create-account">
+                                            <span></span>
+                                            Create Account?
+                                        </label>
+                                        <div class="caption">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                tempor
+                                                incididunt.</p>
+                                            <input class="input" type="password" name="password"
+                                                   placeholder="Enter Your Password">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
+                            @endauth
                         <!-- /Billing Details -->
 
                         <!-- Order notes -->

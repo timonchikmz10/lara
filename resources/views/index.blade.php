@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Головна сторінка')
 @section('content')
+
     <!-- SECTION -->
     <div class="section">
         <!-- container -->

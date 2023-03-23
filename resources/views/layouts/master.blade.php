@@ -7,6 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Autozone: @yield('title')</title>
+    @yield('styles')
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -48,8 +49,9 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                @auth
+                    <li><a href="{{route('dashboard')}}"><i class="fa fa-user-o"></i>{{Auth::user()->name}}</a></li>
+                @endauth
             </ul>
         </div>
     </div>
@@ -65,7 +67,7 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="{{ route('index') }}" class="logo">
-                            <img src="./img/logo.png" alt="">
+                            <img src="/img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
@@ -137,7 +139,8 @@
                                 </div>
                                 <div class="cart-btns">
                                     <a href="{{ route('basket') }}">View Cart</a>
-                                    <a href="{{ route('order')  }}">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="{{ route('order')  }}">Checkout <i
+                                            class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -171,10 +174,21 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="{{route('index')}}">Головна</a></li>
+                <li><a href="{{route('index')}}">Головна</a></li>
                 <li><a href="{{route('shop')}}">Сторінка магазину</a></li>
                 <li><a href="{{ route('categories') }}">Категорії</a></li>
                 <li><a href="{{route('basket')}}">Кошик</a></li>
+                @if (Route::has('login'))
+                    @auth
+                        <li><a href="{{ route('dashboard') }}">Профіль</a></li>
+                    @else
+                        <li><a href="{{ route('login') }}">Увійти</a></li>
+
+                        @if (Route::has('register'))
+                            <li><a href="{{ route('register') }}">Зареєструватися</a></li>
+                        @endif
+                    @endauth
+                @endif
             </ul>
             <!-- /NAV -->
         </div>
@@ -204,7 +218,8 @@
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
                         <h3 class="footer-title">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut.</p>
                         <ul class="footer-links">
                             <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
                             <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
@@ -276,7 +291,9 @@
                     </ul>
                     <span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
+                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                                                target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							</span>
                 </div>
@@ -296,8 +313,6 @@
 <script src="/js/nouislider.min.js"></script>
 <script src="/js/jquery.zoom.min.js"></script>
 <script src="/js/main.js"></script>
-
-
 
 
 </body>

@@ -24,12 +24,13 @@
     <!-- /BREADCRUMB -->
 
     <!-- SECTION -->
-    <div class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <form method="POST" action="{{route('order-confirm')}}">
+    <form method="POST" action="{{route('order-confirm')}}">
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+
                     <div class="col-md-7">
                         <!-- Billing Details -->
                         <div class="billing-details">
@@ -45,7 +46,12 @@
                                        placeholder="Last Name">
                             </div>
                             <div class="form-group">
-                                <input class="input" id="email" type="email" name="email" placeholder="Email">
+                                @auth
+                                    <input class="input" id="email" type="email" name="email"
+                                           value="{{Auth::user()->email}}" placeholder="Email">
+                                @else
+                                    <input class="input" id="email" type="email" name="email" placeholder="Email">
+                                @endauth
                             </div>
                             <div class="form-group">
                                 <input class="input" id="address" type="text" name="address" placeholder="Address">
@@ -62,11 +68,9 @@
                             <div class="form-group">
                                 <input class="input" id="phone" type="tel" name="phone" placeholder="Telephone">
                             </div>
-                            @auth
-                                <div class="form-group">
 
-                                </div>
-                            @else
+
+                            @guest
                                 <div class="form-group">
                                     <div class="input-checkbox">
                                         <input type="checkbox" id="create-account">
@@ -84,7 +88,7 @@
                                     </div>
                                 </div>
                         </div>
-                            @endauth
+                        @endguest
                         <!-- /Billing Details -->
 
                         <!-- Order notes -->
@@ -93,8 +97,85 @@
                         </div>
                         <!-- /Order notes -->
                     </div>
-                    <!-- Order Details -->
-                    <div class="col-md-5 order-details">
+                    @guest
+                        <!-- Order Details -->
+                        <div style="margin-top: 87px;" class="col-md-5 order-details">
+                            <div class="section-title text-center">
+                                <h3 class="title">Your Order</h3>
+                            </div>
+                            <div class="order-summary">
+                                <div class="order-col">
+                                    <div><strong>PRODUCT</strong></div>
+                                    <div><strong>TOTAL</strong></div>
+                                </div>
+                                <div class="order-products">
+                                    @foreach($order->products as $product)
+                                        <div class="order-col">
+                                            <div>x{{$product->pivot->count}} {{$product->title}}</div>
+                                            <div>₴{{$product->priceForCount()}}</div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="order-col">
+                                    <div><strong>TOTAL</strong></div>
+                                    <div><strong class="order-total">₴{{$order->fullPrice()}}</strong></div>
+                                </div>
+                            </div>
+                            <div class="payment-method">
+                                <div class="input-radio">
+                                    <input type="radio" name="payment" id="payment-1">
+                                    <label for="payment-1">
+                                        <span></span>
+                                        Direct Bank Transfer
+                                    </label>
+                                    <div class="caption">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                            tempor
+                                            incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </div>
+                                <div class="input-radio">
+                                    <input type="radio" name="payment" id="payment-2">
+                                    <label for="payment-2">
+                                        <span></span>
+                                        Cheque Payment
+                                    </label>
+                                    <div class="caption">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                            tempor
+                                            incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </div>
+                                <div class="input-radio">
+                                    <input type="radio" name="payment" id="payment-3">
+                                    <label for="payment-3">
+                                        <span></span>
+                                        Paypal System
+                                    </label>
+                                    <div class="caption">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                            tempor
+                                            incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="terms">
+                                <label for="terms">
+                                    <span></span>
+                                    I've read and accept the <a href="#">terms & conditions</a>
+                                </label>
+                            </div>
+
+                            <input value='Оформити замовлення' type="submit" class="primary-btn order-submit">
+                        </div>
+                    @endguest
+
+
+                </div>
+                <!-- /Order Details -->
+                @auth
+                    <div style="margin-top:87px" class="col-md-5 order-details">
                         <div class="section-title text-center">
                             <h3 class="title">Your Order</h3>
                         </div>
@@ -160,15 +241,15 @@
                         </div>
 
                         <input value='Оформити замовлення' type="submit" class="primary-btn order-submit">
-                    @csrf
-                </form>
+                    </div>
+                @endauth
             </div>
-            <!-- /Order Details -->
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-    </div>
-    <!-- /SECTION -->
 
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+        </div>
+        <!-- /SECTION -->
+        @csrf
+    </form>
 @endsection

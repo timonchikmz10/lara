@@ -67,7 +67,7 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="{{ route('index') }}" class="logo">
-                            <img src="/img/logo.png" alt="">
+                            <img src="/img/logo3.png" alt="">
                         </a>
                     </div>
                 </div>

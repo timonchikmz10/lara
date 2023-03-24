@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
@@ -36,6 +37,9 @@ class Order extends Model
             $this->city = $r->city;
             $this->email = $r->email;
             $this->status = 1;
+            if(Auth::check()){
+                $this->user_id = Auth::id();
+            }
             $this->save();
             session()->forget('orderId');
             return true;

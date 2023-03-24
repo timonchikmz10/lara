@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
@@ -14,10 +15,11 @@ class BasketController extends Controller
         if (!is_null($orderId)) {
             $order = Order::findOrFail($orderId);
             return view('basket', compact('order'));
-        } else {
-            session()->flash('warning', 'Спочатку додайте товары до кошика');
-            return redirect()->route('shop');
         }
+//        else {
+//            session()->flash('warning', 'Спочатку додайте товары до кошика');
+//            return redirect()->route('shop');
+//        }
 
     }
 
@@ -67,6 +69,10 @@ class BasketController extends Controller
         } else {
             $order->products()->attach($productId);
         }
+        if(Auth::check()){
+            $order->user_id = Auth::id();
+            $order->save();
+        }
         $product = Product::find($productId);
         session()->flash('success', 'Додано товар: ' . $product->title . '.');
         return redirect()->route('basket');
@@ -81,15 +87,12 @@ class BasketController extends Controller
             $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
             if ($pivotRow->count < 2) {
                 $order->products()->detach($productId);
-                if($order->allCount() < 2){
-                    session()->forget('orderId');
                     session()->flash('warning', 'Товар ' . $product->title .  ' вилучено з кошика. Додайте нові товари.');
                     return redirect()->route('shop');
-                }
             } else {
                 $pivotRow->count--;
                 $pivotRow->update();
-                session('warning', 'Товар ' . $product->title .' вилучено з кошика.');
+                session()->flash('warning', 'Товар ' . $product->title .' вилучено з кошика.');
             }
         }
         return redirect()->route('basket');

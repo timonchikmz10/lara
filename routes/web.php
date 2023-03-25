@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,8 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
 Route::get('/profile/orders', 'App\Http\Controllers\YourOrderController@index')->name('orders');
-Route::get('/orders', 'App\Http\Controllers\Admin\OrderController@orders')->middleware(['auth', 'verified', 'is_admin'])->name('dashboard');
-Route::get('/admin-categories', 'App\Http\Controllers\Admin\CategoryController@categories')->middleware(['auth', 'verified', 'is_admin'])->name('admin-categories');
+//Route::get('/orders', 'App\Http\Controllers\Admin\OrderController@orders')->middleware(['auth', 'verified', 'is_admin'])->name('dashboard');
+//Route::get('/admin-categories', 'App\Http\Controllers\Admin\CategoryController@categories')->middleware(['auth', 'verified', 'is_admin'])->name('admin-categories');
+Route::group([
+    'prefix'=>'admin',
+    'middleware'=>['auth', 'verified', 'is_admin']
+],function (){
+    Route::resource('categories', 'App\Http\Controllers\Admin\CategoryController');
+    Route::resource('products', 'App\Http\Controllers\Admin\ProductController');
+    Route::get('/orders', 'App\Http\Controllers\Admin\OrderController@orders')->name('dashboard');
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

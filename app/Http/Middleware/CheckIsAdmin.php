@@ -17,15 +17,12 @@ class CheckIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        if($request->path() == 'orders') {
             if (!$user->isAdmin()) {
-                return redirect()->route('orders');
+                if($request->path() == 'admin/orders'){
+                    return redirect()->route('orders');
+                }
+                return redirect()->route('index');
             }
-        }elseif($request->path() == 'admin-categories'){
-            if (!$user->isAdmin()) {
-                return redirect()->route('categories');
-            }
-        }
         return $next($request);
     }
 }

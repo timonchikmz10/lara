@@ -1,7 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResetController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Person\OrdersController;
+use App\Http\Controllers\BasketController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,39 +19,47 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', 'App\Http\Controllers\MainController@index')->name('index');
-Route::get('/profile/orders', 'App\Http\Controllers\YourOrderController@index')->name('orders');
-//Route::get('/orders', 'App\Http\Controllers\Admin\OrderController@orders')->middleware(['auth', 'verified', 'is_admin'])->name('dashboard');
-//Route::get('/admin-categories', 'App\Http\Controllers\Admin\CategoryController@categories')->middleware(['auth', 'verified', 'is_admin'])->name('admin-categories');
-Route::group([
-    'prefix'=>'admin',
-    'middleware'=>['auth', 'verified', 'is_admin']
-],function (){
-    Route::resource('categories', 'App\Http\Controllers\Admin\CategoryController');
-    Route::resource('products', 'App\Http\Controllers\Admin\ProductController');
-    Route::get('/orders', 'App\Http\Controllers\Admin\OrderController@orders')->name('dashboard');
+Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
+Route::get('/', [MainController::class, 'index'])->name('index');
+Route::middleware('auth')->group(function () {
+    Route::group([
+        'prefix'=> 'person',
+        'namespace'=>'Person'
+    ], function (){
+        Route::get('/orders', [OrdersController::class, 'orders'])->name('profile-orders');
+        Route::get('/orders/{order}', [OrdersController::class, 'show'])->name('profile-order-show');
+    });
+    Route::group([
+        'prefix'=>'admin',
+        'middleware'=>['verified', 'is_admin']
+    ],function (){
+        Route::resource('categories', CategoryController::class);
+        Route::resource('products', ProductController::class);
+        Route::get('/orders', [OrderController::class, 'orders'])->name('dashboard');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order-show');
+    });
 });
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//    Rute::get('', )
 });
 require __DIR__ . '/auth.php';
-//Route::get('/home', 'App\Http\Controllers\MainController@index')->name('index');
-Route::get('/categories', 'App\Http\Controllers\MainController@categories')->name('categories');
-Route::get('/shop', 'App\Http\Controllers\MainController@shop')->name('shop');
+Route::get('/categories', [MainController::class, 'categories'])->name('categories');
+Route::get('/shop', [MainController::class, 'shop'])->name('shop');
 Route::group([
     'prefix' => 'basket'], function (){
-    Route::post('/add/{id}', 'App\Http\Controllers\BasketController@basketAdd')->name('basket-add');
+    Route::post('/add/{id}', [BasketController::class, 'basketAdd'])->name('basket-add');
     Route::group([
         'middleware' => 'basket_is_not_empty'
     ], function () {
-        Route::get('/', 'App\Http\Controllers\BasketController@basket')->name('basket');
-        Route::get('/order', 'App\Http\Controllers\BasketController@basketPlace')->name('order');
-        Route::post('/confirm', 'App\Http\Controllers\BasketController@orderConfirm')->name('order-confirm');
-        Route::post('/remove/{id}', 'App\Http\Controllers\BasketController@basketRemove')->name('basket-remove');
+        Route::get('/', [BasketController::class, 'basket'])->name('basket');
+        Route::get('/order', [BasketController::class, 'basketPlace'])->name('order');
+        Route::post('/confirm', [BasketController::class, 'orderConfirm'])->name('order-confirm');
+        Route::post('/remove/{id}', [BasketController::class, 'basketRemove'])->name('basket-remove');
     });
 });
-Route::get('/{category}', 'App\Http\Controllers\MainController@category')->name('category');
-Route::get('/{category}/{product?}', 'App\Http\Controllers\MainController@product')->name('product');
+Route::get('/{category}', [MainController::class, 'category'])->name('category');
+Route::get('/{category}/{product?}', [MainController::class, 'product'])->name('product');

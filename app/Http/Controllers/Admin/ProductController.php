@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -30,9 +32,16 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        Product::create($request->all());
+        if($request->has('image')) {
+            $path = $request->file('image')->store('products');
+            $params = $request->all();
+            $params['image'] = $path;
+            Product::create($params);
+        }else{
+            Product::create($request->all());
+        }
         session()->flash('success', 'Товар ' . $request->title . ' було створено');
         return redirect()->route('products.index');
     }
@@ -57,18 +66,31 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $product->update($request->all());
+        if($request->has('image')){
+            if($product->image) {
+                Storage::delete($product->image);
+            }
+            $path = $request->file('image')->store('products');
+            $params = $request->all();
+            $params['image'] = $path;
+            $product->update($params);
+
+        }else {
+            $product->update($request->all());
+        }
         session()->flash('success', 'Товар ' . $request->title . ' було змінено');
         return redirect()->route('products.index');
     }
 
     /**
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
     {
+        Storage::delete($product->image);
         $product->delete();
         session()->flash('success', 'Товар ' . $product->title . ' був видален.');
         return redirect()->route('products.index');

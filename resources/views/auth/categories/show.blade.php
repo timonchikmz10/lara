@@ -53,11 +53,11 @@
                 <td>Описание</td>
                 <td>{{ $category->description }}</td>
             </tr>
-{{--            <tr>--}}
-{{--                <td>Картинка</td>--}}
-{{--                <td><img src="{{ Storage::url($category->image) }}"--}}
-{{--                         height="240px"></td>--}}
-{{--            </tr>--}}
+            <tr>
+                <td>Картинка</td>
+                <td><img src="{{asset(Storage::url($category->image)) }}"
+                         style="height: 240px"></td>
+            </tr>
             <tr>
                 <td>Кол-во товаров:</td>
                 <td>{{ $category->products->count() }}</td>

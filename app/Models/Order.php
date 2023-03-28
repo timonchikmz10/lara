@@ -19,13 +19,6 @@ class Order extends Model
         }
         return $sum;
     }
-    public function allCount(){
-        $sum = 0;
-        foreach ($this->products as $product){
-            $sum += $product->pivot->count;
-        }
-        return $sum;
-    }
     public function saveOrder($r){
         if($this->status == 0) {
             $this->name = $r->first_name;

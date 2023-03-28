@@ -3,7 +3,7 @@
 <div class="col-md-4 col-xs-6">
     <div class="product">
         <div class="product-img">
-            <img src="./img/product02.png" alt="">
+            <img src="{{Storage::url($product->image)}}" alt="">
             <div class="product-label">
                 @if($product->new != 0)
                 <span class="new">NEW</span>

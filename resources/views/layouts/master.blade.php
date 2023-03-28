@@ -180,7 +180,11 @@
                 <li><a href="{{route('basket')}}">Кошик</a></li>
                 @if (Route::has('login'))
                     @auth
-                        <li><a href="{{ route('dashboard') }}">Профіль</a></li>
+                        @admin
+                            <li><a href="{{ route('dashboard') }}">Адміністративна панель</a></li>
+                        @else
+                            <li><a href="{{ route('profile.edit') }}">Профіль</a></li>
+                        @endadmin
                     @else
                         <li><a href="{{ route('login') }}">Увійти</a></li>
 

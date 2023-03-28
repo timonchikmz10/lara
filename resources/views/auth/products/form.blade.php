@@ -32,30 +32,45 @@
                     @else
                     {{route('products.store')}}
                     @endisset
-                    " method="POST">
+                    " method="POST" enctype="multipart/form-data">
                         @isset($product)
                             @method('PUT')
                             @csrf
                             <div class="input-group row">
                                 <label for="code" class="col-sm-2 col-form-label">Код: </label>
                                 <div class="col-sm-6">
+                                    @error('code')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Англ</div>
                                     <input type="text" class="form-control" name="code" id="code"
-                                           value="{{$product->code}}">
+                                           value="{{old('code', $product->code)}}">
                                 </div>
                             </div>
                             <br>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Назва: </label>
                                 <div class="col-sm-6">
+                                    @error('title')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <input type="text" class="form-control" name="title" id="title"
-                                           value="{{$product->title}}">
+                                           value="{{old('code', $product->title)}}">
                                 </div>
                             </div>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Категорія: </label>
                                 <div class="col-sm-6">
+                                    @error('category_id')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <select  class="form-control" name="category_id" id="category_id">
                                         @foreach($categories as $category)
                                             <option
@@ -72,9 +87,14 @@
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Статус NEW: </label>
                                 <div class="col-sm-6">
+                                    @error('new')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">(1 або 0)</div>
                                     <input type="text" class="form-control" name="new" id="new"
-                                           value="{{$product->new}}">
+                                           value="{{old('code', $product->new)}}">
                                 </div>
                             </div>
 
@@ -82,15 +102,20 @@
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Ціна: </label>
                                 <div class="col-sm-6">
+                                    @error('price')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <input type="text" class="form-control" name="price" id="price"
-                                           value="{{$product->price}}">
+                                           value="{{old('code', $product->price)}}">
                                 </div>
                             </div>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Акційна ціна: </label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="sale_price" id="sale_price"
-                                           value="{{$product->sale_price}}">
+                                           value="{{old('code', $product->sale_price)}}">
                                 </div>
                             </div>
 
@@ -101,23 +126,40 @@
                             <div class="input-group row">
                                 <label for="description" class="col-sm-2 col-form-label">Короткий опис: </label>
                                 <div class="col-sm-6">
+                                    @error('short_description')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <textarea name="short_description" id="short_description" cols="72"
-                                              rows="7">{{$product->short_description}}</textarea>
+                                              rows="7">{{old('code', $product->short_description)}}</textarea>
                                 </div>
                             </div>
                             <div class="input-group row">
                                 <label for="description" class="col-sm-2 col-form-label">Опис: </label>
                                 <div class="col-sm-6">
+                                    @error('description')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <textarea name="description" id="description" cols="72"
-                                              rows="7">{{$product->description}}</textarea>
+                                              rows="7">{{old('code', $product->description)}}</textarea>
                                 </div>
                             </div>
 
                             <div class="input-group row">
                                 <label for="image" class="col-sm-2 col-form-label">Зображення: </label>
                                 <div class="col-sm-10">
+                                    <tr>
+                                        @isset($product->image)
+                                        <td>Сучасна</td>
+                                        <td><img src="{{asset(Storage::url($product->image)) }}"
+                                                 style="height: 240px"></td>
+                                        @endisset
+                                    </tr>
                                     <label class="btn btn-default btn-file">
                                         Загрузить <input type="file" style="display: none;" name="image" id="image">
                                     </label>
@@ -128,23 +170,38 @@
                             <div class="input-group row">
                                 <label for="code" class="col-sm-2 col-form-label">Код: </label>
                                 <div class="col-sm-6">
+                                    @error('code')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Англ</div>
                                     <input type="text" class="form-control" name="code" id="code"
-                                    >
+                                    value="{{old('code')}}">
                                 </div>
                             </div>
                             <br>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Назва: </label>
                                 <div class="col-sm-6">
+                                    @error('title')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <input type="text" class="form-control" name="title" id="title"
-                                    >
+                                           value="{{old('title')}}">
                                 </div>
                             </div>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Категорія: </label>
                                 <div class="col-sm-6">
+                                    @error('category_id')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <select  class="form-control" name="category_id" id="category_id">
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}">{{$category->title}}
@@ -156,9 +213,14 @@
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Статус NEW: </label>
                                 <div class="col-sm-6">
+                                    @error('new')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">(1 або 0)</div>
                                     <input type="text" class="form-control" name="new" id="new"
-                                           >
+                                           value="{{old('new')}}">
                                 </div>
                             </div>
 
@@ -166,8 +228,13 @@
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Ціна: </label>
                                 <div class="col-sm-6">
+                                    @error('price')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <input type="text" class="form-control" name="price" id="price"
-                                           >
+                                           value="{{old('price')}}">
                                 </div>
                             </div>
                         <br>
@@ -175,24 +242,34 @@
                                 <label for="name" class="col-sm-2 col-form-label">Акційна ціна: </label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="sale_price" id="sale_price"
-                                           >
+                                           value="{{old('sale_price')}}" >
                                 </div>
                             </div>
                             <br>
                             <div class="input-group row">
                                 <label for="description" class="col-sm-2 col-form-label">Короткий опис: </label>
                                 <div class="col-sm-6">
+                                    @error('short_description')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <textarea name="short_description" id="short_description" cols="72"
-                                              rows="7"></textarea>
+                                              rows="7">{{old('short_description')}}</textarea>
                                 </div>
                             </div>
                             <div class="input-group row">
                                 <label for="description" class="col-sm-2 col-form-label">Опис: </label>
                                 <div class="col-sm-6">
+                                    @error('description')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <textarea name="description" id="description" cols="72"
-                                              rows="7"></textarea>
+                                              rows="7">{{old('description')}}</textarea>
                                 </div>
                             </div>
 

@@ -17,7 +17,10 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
     public function priceForCount(){
-        return $this->pivot->count * $this->price;
+        if($this->sale_price == 0){
+            return $this->pivot->count * $this->price;
+        }
+        return $this->pivot->count * $this->sale_price;
     }
     use HasFactory;
 }

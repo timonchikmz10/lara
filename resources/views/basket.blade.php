@@ -14,7 +14,7 @@
                                             <div class="col-md-3">
                                                 <div class='product_cart_image'>
                                                     <img class="img-fluid mx-auto d-block image"
-                                                         src="/img/product01.png">
+                                                         src="{{Storage::url($product->image)}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-8">

@@ -32,25 +32,35 @@
                     @else
                     {{route('categories.store')}}
                     @endisset
-                    " method="POST">
+                    " method="POST" enctype="multipart/form-data">
                         @isset($category)
                             @method('PUT')
                             @csrf
                             <div class="input-group row">
                                 <label for="code" class="col-sm-2 col-form-label">Код: </label>
                                 <div class="col-sm-6">
+                                    @error('code')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Англ</div>
                                     <input type="text" class="form-control" name="code" id="code"
-                                           value="{{$category->code}}">
+                                           value="{{old('code', isset($category) ? $category->code :null)}}">
                                 </div>
                             </div>
                             <br>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Назва: </label>
                                 <div class="col-sm-6">
+                                    @error('title')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <input type="text" class="form-control" name="title" id="title"
-                                           value="{{$category->title}}">
+                                           value="{{old('title', isset($category) ? $category->title :null)}}">
                                 </div>
                             </div>
 
@@ -60,9 +70,14 @@
                             <div class="input-group row">
                                 <label for="description" class="col-sm-2 col-form-label">Опис: </label>
                                 <div class="col-sm-6">
+                                    @error('description')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <textarea name="description" id="description" cols="72"
-                                              rows="7">{{$category->description}}
+                                              rows="7">{{old('description', isset($category) ? $category->description :null)}}
                                  </textarea>
                                 </div>
                             </div>
@@ -70,6 +85,11 @@
                             <div class="input-group row">
                                 <label for="image" class="col-sm-2 col-form-label">Зображення: </label>
                                 <div class="col-sm-10">
+                                    <tr>
+                                        <td>Сучасна</td>
+                                        <td><img src="{{asset(Storage::url($category->image)) }}"
+                                                 style="height: 240px"></td>
+                                    </tr>
                                     <label class="btn btn-default btn-file">
                                         Загрузить <input type="file" style="display: none;" name="image" id="image">
                                     </label>
@@ -80,18 +100,28 @@
                             <div class="input-group row">
                                 <label for="code" class="col-sm-2 col-form-label">Код: </label>
                                 <div class="col-sm-6">
+                                    @error('code')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Англ</div>
                                     <input type="text" class="form-control" name="code" id="code"
-                                    >
+                                    value="{{old('code')}}">
                                 </div>
                             </div>
                             <br>
                             <div class="input-group row">
                                 <label for="name" class="col-sm-2 col-form-label">Назва: </label>
                                 <div class="col-sm-6">
+                                    @error('title')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <input type="text" class="form-control" name="title" id="title"
-                                    >
+                                           value="{{old('title')}}">
                                 </div>
                             </div>
 
@@ -101,11 +131,14 @@
                             <div class="input-group row">
                                 <label for="description" class="col-sm-2 col-form-label">Опис: </label>
                                 <div class="col-sm-6">
+                                    @error('description')
+                                    <div class="danger alert-danger">
+                                        {{$message}}
+                                    </div>
+                                    @enderror
                                     <div class="alert alert-danger">Укр</div>
                                     <textarea name="description" id="description" cols="72"
-                                              rows="7">
-
-                                 </textarea>
+                                              rows="7" >{{old('description')}}</textarea>
                                 </div>
                             </div>
 

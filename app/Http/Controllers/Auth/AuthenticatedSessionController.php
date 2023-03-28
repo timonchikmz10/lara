@@ -29,7 +29,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
         $user = Auth::user()->email;
-        return redirect()->route('dashboard', $user);
+        session()->flash('success', 'Вітаємо '  . Auth::user()->name . '.');
+        return redirect()->route('index', $user);
     }
 
     /**

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use function Symfony\Component\String\s;
 
 class CategoryController extends Controller
 {
@@ -28,9 +31,17 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        Category::create($request->all());
+        if($request->has('image')) {
+            $path = $request->file('image')->store('categories');
+            $params = $request->all();
+            $params['image'] = $path;
+            Category::create($params);
+        }else{
+         Category::create($request->all());
+        }
+        session()->flash('success', 'Категорію ' . $request->title . ' створено.');
         return redirect()->route('categories.index');
     }
 
@@ -53,10 +64,20 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category->update($request->all());
-        session()->flash('success', 'Категорію ' . $request->title . ' додано');
+        if ($request->has('image')) {
+            if(isset($category->image)){
+                Storage::delete($category->image);
+            }
+            $path = $request->file('image')->store('categories');
+            $params = $request->all();
+            $params['image'] = $path;
+            $category->update($params);
+        } else {
+            $category->update($request->all());
+        }
+        session()->flash('success', 'Категорію ' . $request->title . ' оновлено.');
         return redirect()->route('categories.index');
     }
 
@@ -65,6 +86,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        Storage::delete($category->image);
         $category->delete();
         session()->flash('success', 'Категорія ' . $category->title . ' була видалена.');
         return redirect()->route('categories.index');

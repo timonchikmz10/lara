@@ -2,29 +2,7 @@
 @section('title', 'Редагування товара: ' . $product->title)
 @section('content')
 
-    <style>
-        .butt {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-        }
 
-        .but {
-            background-color: #e52828; /* Green */
-            border: none;
-            color: white;
-            padding: 10px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 12px;
-        }
-    </style>
     <div class="col-md-12">
         <h1>Категорія {{ $product->title }}</h1>
         <table class="table">
@@ -66,11 +44,11 @@
                 <td>Опис</td>
                 <td>{{ $product->description }}</td>
             </tr>
-            {{--            <tr>--}}
-            {{--                <td>Картинка</td>--}}
-            {{--                <td><img src="{{ Storage::url($category->image) }}"--}}
-            {{--                         height="240px"></td>--}}
-            {{--            </tr>--}}
+                        <tr>
+                            <td>Картинка</td>
+                            <td><img style="height: 240px" src="{{ Storage::url($product->image) }}"
+                                     ></td>
+                        </tr>
             <tr>
                 <td>Короткий опис</td>
                 <td>{{ $product->short_description }}

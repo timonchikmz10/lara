@@ -12,21 +12,24 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if(Auth::user()->isAdmin())
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            Усі замовлення
-                        </x-nav-link>
-                        <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
-                            Усі категорії
-                        </x-nav-link>
-                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                            Усі продукти
-                        </x-nav-link>
-                        <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-                            Редагувати профіль
-                        </x-nav-link>
+                    @admin
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        Усі замовлення
+                    </x-nav-link>
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
+                        Усі категорії
+                    </x-nav-link>
+                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                        Усі продукти
+                    </x-nav-link>
+                    <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                        Редагувати профіль
+                    </x-nav-link>
+                    <x-nav-link :href="route('reset')">
+                        Онулювати налаштування
+                    </x-nav-link>
                     @else
-                        <x-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                        <x-nav-link :href="route('profile-orders')" :active="request()->routeIs('profile-orders')">
                             Замовлення
                         </x-nav-link>
                         <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
@@ -35,7 +38,7 @@
                         <x-nav-link :href="route('basket')" :active="request()->routeIs('basket')">
                             Кошик
                         </x-nav-link>
-                    @endif
+                        @endadmin
                 </div>
             </div>
 

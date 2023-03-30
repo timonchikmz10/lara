@@ -5,7 +5,7 @@
         <h1><p>{{$category->title}}</p></h1>
         <h2>{{$category->description}}</h2>
         <h3>Товарів({{$category->products->count()}})</h3>
-        @foreach($category->products as $product)
+        @foreach($category->products()->with('category')->get() as $product)
             @include('layouts.card', ['product'=>$product])
         @endforeach
     @endsection

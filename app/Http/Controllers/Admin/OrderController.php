@@ -15,7 +15,7 @@ class OrderController extends Controller
 
     public function orders()
     {
-            $orders = Order::where('status', 1)->get();
+            $orders = Order::active()->paginate(20);
             return view('auth.orders.dashboard', compact('orders'));
     }
     public function show(Order $order){

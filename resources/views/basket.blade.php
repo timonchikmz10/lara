@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-8">
                             <div class="items">
-                                @foreach($order->products as $product)
+                                @foreach($order->products()->with('category')->get() as $product)
                                     <div class="product">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -66,17 +66,17 @@
                         </div>
                         <div class="col-md-12 col-lg-4">
                             <div class="summary">
-                                <h3>Summary</h3>
-                                <div class="summary-item"><span class="text">Subtotal</span><span
-                                        class="price">$360</span></div>
-                                <div class="summary-item"><span class="text">Discount</span><span
-                                        class="price">$0</span></div>
-                                <div class="summary-item"><span class="text">Shipping</span><span
-                                        class="price">$0</span></div>
-                                <div class="summary-item"><span class="text">Total</span><span
-                                        class="price">₴{{ $order->fullPrice() }}</span>
+                                <h3>Сума замовлення</h3>
+                                @foreach($order->products as $product)
+                                    <div class="summary-item">
+                                        <span class = "text">x{{$product->pivot->count}} {{$product->title}}</span>
+                                        <span class="price">₴{{$product->priceForCount()}}</span>
+                                    </div>
+                                @endforeach
+                                <div class="summary-item"><span class="text">Підсумок</span><span
+                                        class="price">₴{{ $order->fullSum() }}</span>
                                 </div>
-                                <a href="{{route('order')}}" type="button" class="btn btn-primary btn-lg btn-block">Checkout</a>
+                                <a href="{{route('order')}}" type="button" class="btn btn-primary btn-lg btn-block">Оформити замовлення</a>
                             </div>
                         </div>
                     </div>

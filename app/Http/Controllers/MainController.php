@@ -8,15 +8,42 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $categories = Category::get();
-        return view('index',compact('categories'));
+        return view('index', compact('categories'));
     }
 
-    public function shop()
+    public function shop(Request $request)
     {
-        $products = Product::get();
-        return view('shop', compact('products'));
+        $categories = Category::get();
+        $productsQuery = Product::with('category');
+        if ($request->filled('price_min')) {
+            $productsQuery->where('price', '>=', $request->price_min);
+        }
+        if ($request->filled('price_max')) {
+            $productsQuery->where('price', '<=', $request->price_max);
+        }
+        foreach (['hit', 'recommended', 'new'] as $field) {
+            if ($request->has($field)) {
+                $productsQuery->$field();
+            }
+        }
+        $bl = false;
+        foreach ($categories as $category){
+            if ($request->has($category->code)){
+                $bl = true;
+            }
+        }
+        if($bl) {
+            foreach ($categories as $category) {
+                if (!$request->has($category->code)) {
+                    $productsQuery->where('category_id', '!=', $category->id);
+                }
+            }
+        }
+        $products = $productsQuery->Paginate(6)->withPath("?" . $request->getQueryString());
+        return view('shop', compact('products', 'categories'));
     }
 
     public function categories()

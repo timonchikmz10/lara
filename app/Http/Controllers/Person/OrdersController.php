@@ -11,7 +11,7 @@ class OrdersController extends Controller
 {
     public function orders()
     {
-        $orders = Auth::user()->orders()->where('status', 1)->get();
+        $orders = Auth::user()->orders()->active()->paginate(10);
         return view('auth.orders.dashboard', compact('orders'));
     }
 

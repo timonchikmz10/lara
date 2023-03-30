@@ -1,4 +1,4 @@
-@extends('profile.layouts.master')
+@extends('auth.layouts.master')
 @isset($category)
     @section( 'title', 'Змінити категорію: ' . $category->title)
 @else
@@ -17,69 +17,49 @@
             font-size: 16px;
         }
     </style>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    @isset($category)
-                        <h1><b> Змінитии категорію: {{$category->title}} </b></h1>
-                    @else
-                        <h1><b> Cтворити категорію </b></h1>
-                    @endisset
-                    <form action="
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="billing-details">
+                        <div class="section-title">
+                            @isset($category)
+                            <h3 class="title"><b> Змінити категорію: {{$category->title}}</b></h3>
+                            @else
+                                <h3 class="title"><b> Створити категорію</b></h3>
+                            @endisset
+                        </div>
+                        <form action="
                     @isset($category)
                     {{route('categories.update', $category)}}
                     @else
                     {{route('categories.store')}}
                     @endisset
                     " method="POST" enctype="multipart/form-data">
+                            @isset($product)
+                                <h1><b> Змінитии товар: {{$product->title}} </b></h1>
+                            @else
+                                <h1><b> Cтворити товар </b></h1>
+                            @endisset
                         @isset($category)
                             @method('PUT')
                             @csrf
-                            <div class="input-group row">
-                                <label for="code" class="col-sm-2 col-form-label">Код: </label>
-                                <div class="col-sm-6">
-                                    @error('code')
-                                    <div class="danger alert-danger">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
-                                    <div class="alert alert-danger">Англ</div>
-                                    <input type="text" class="form-control" name="code" id="code"
-                                           value="{{old('code', isset($category) ? $category->code :null)}}">
-                                </div>
+                            <div class="form-group">
+                                <label for="code">Код(Наприклад: category_123):</label>
+                                @include('layouts.errors', ['fieldName'=>'code'])
+                                <input value="{{old('code', isset($category) ? $category->code :null)}}" class="input" id="code" name="code">
                             </div>
-                            <br>
-                            <div class="input-group row">
-                                <label for="name" class="col-sm-2 col-form-label">Назва: </label>
-                                <div class="col-sm-6">
-                                    @error('title')
-                                    <div class="danger alert-danger">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
-                                    <div class="alert alert-danger">Укр</div>
-                                    <input type="text" class="form-control" name="title" id="title"
-                                           value="{{old('title', isset($category) ? $category->title :null)}}">
-                                </div>
+                            <div class="form-group">
+                                <label for="code">Назва:</label>
+                                @include('layouts.errors', ['fieldName'=>'title'])
+                                <input value="{{old('title', isset($category) ? $category->title :null)}}" class="input" id="title" name="title">
                             </div>
-
-                            <br>
-
-                            <br>
-                            <div class="input-group row">
-                                <label for="description" class="col-sm-2 col-form-label">Опис: </label>
-                                <div class="col-sm-6">
-                                    @error('description')
-                                    <div class="danger alert-danger">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
-                                    <div class="alert alert-danger">Укр</div>
-                                    <textarea name="description" id="description" cols="72"
-                                              rows="7">{{old('description', isset($category) ? $category->description :null)}}
-                                 </textarea>
-                                </div>
+                            <div class="form-group">
+                                <label for="code">Опис:</label>
+                                @include('layouts.errors', ['fieldName'=>'description'])
+                                <input value="{{old('description', isset($category) ? $category->description :null)}}" class="input" id="description" name="description">
                             </div>
 
                             <div class="input-group row">
@@ -91,55 +71,27 @@
                                                  style="height: 240px"></td>
                                     </tr>
                                     <label class="btn btn-default btn-file">
-                                        Загрузить <input type="file" style="display: none;" name="image" id="image">
+                                        Завантажити <input type="file" style="display: none;" name="image" id="image">
                                     </label>
                                 </div>
                             </div>
+                            <button type='submit' class="butt">Збергти</button>
                         @else
                             @csrf
-                            <div class="input-group row">
-                                <label for="code" class="col-sm-2 col-form-label">Код: </label>
-                                <div class="col-sm-6">
-                                    @error('code')
-                                    <div class="danger alert-danger">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
-                                    <div class="alert alert-danger">Англ</div>
-                                    <input type="text" class="form-control" name="code" id="code"
-                                    value="{{old('code')}}">
-                                </div>
+                            <div class="form-group">
+                                <label for="code">Код(Наприклад: category_123):</label>
+                                @include('layouts.errors', ['fieldName'=>'code'])
+                                <input value="{{old('code')}}" class="input" id="code" name="code">
                             </div>
-                            <br>
-                            <div class="input-group row">
-                                <label for="name" class="col-sm-2 col-form-label">Назва: </label>
-                                <div class="col-sm-6">
-                                    @error('title')
-                                    <div class="danger alert-danger">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
-                                    <div class="alert alert-danger">Укр</div>
-                                    <input type="text" class="form-control" name="title" id="title"
-                                           value="{{old('title')}}">
-                                </div>
+                            <div class="form-group">
+                                <label for="code">Назва:</label>
+                                @include('layouts.errors', ['fieldName'=>'title'])
+                                <input value="{{old('title')}}" class="input" id="title" name="title">
                             </div>
-
-                            <br>
-
-                            <br>
-                            <div class="input-group row">
-                                <label for="description" class="col-sm-2 col-form-label">Опис: </label>
-                                <div class="col-sm-6">
-                                    @error('description')
-                                    <div class="danger alert-danger">
-                                        {{$message}}
-                                    </div>
-                                    @enderror
-                                    <div class="alert alert-danger">Укр</div>
-                                    <textarea name="description" id="description" cols="72"
-                                              rows="7" >{{old('description')}}</textarea>
-                                </div>
+                            <div class="form-group">
+                                <label for="code">Опис:</label>
+                                @include('layouts.errors', ['fieldName'=>'description'])
+                                <input value="{{old('description')}}" class="input" id="description" name="description">
                             </div>
 
                             <div class="input-group row">
@@ -150,9 +102,10 @@
                                     </label>
                                 </div>
                             </div>
+                            <button type='submit' class="butt">Стоворити</button>
                         @endisset
-                        <button type='submit' class="butt">Збергти</button>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use \DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,7 @@ class BasketController extends Controller
             session()->flash('warning', 'Помилка');
             return redirect()->route('basket/order');
         }
+        Order::eraseOrderSum();
         return redirect()->route('index');
 
     }
@@ -74,6 +76,7 @@ class BasketController extends Controller
             $order->save();
         }
         $product = Product::find($productId);
+        Order::changeFullSum($product, '+');
         session()->flash('success', 'Додано товар: ' . $product->title . '.');
         return redirect()->route('basket');
     }
@@ -83,12 +86,12 @@ class BasketController extends Controller
         $orderId = session('orderId');
         $order = Order::find($orderId);
         $product = Product::find($productId);
+        Order::changeFullSum($product, '-');
         if ($order->products->contains($productId)) {
             $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
             if ($pivotRow->count < 2) {
                 $order->products()->detach($productId);
                     session()->flash('warning', 'Товар ' . $product->title .  ' вилучено з кошика. Додайте нові товари.');
-                    return redirect()->route('shop');
             } else {
                 $pivotRow->count--;
                 $pivotRow->update();

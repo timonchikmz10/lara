@@ -27,23 +27,23 @@ class ProductRequest extends FormRequest
             'description' => 'required|min:5',
             'short_description' => 'required|min:5',
             'category_id' => 'required',
-            'new' => 'required',
             'price' => 'required|numeric|min:1',
-            'sale_price'=> 'numeric|min:1'
+            'sale_price' => 'numeric|min:0'
         ];
-        if($this->route()->named('products.update')){
+        if ($this->route()->named('products.update')) {
             $rules['code'] .= ',' . $this->route()->parameter('product')->id;
             $rules['title'] .= ',' . $this->route()->parameter('product')->id;;
         }
         return $rules;
     }
+
     public function messages()
     {
         return [
             'required' => '* Поле :attribute не може бути порожнім',
-            'min'=>'* Поле :attribute повинно містити не менше :min символів',
-            'max'=>'* Поле :attribute повинно містити не більше :max символів',
-            'unique' =>'* Поле :attribute повторюється з іншими продуктами',
+            'min' => '* Поле :attribute повинно містити не менше :min символів',
+            'max' => '* Поле :attribute повинно містити не більше :max символів',
+            'unique' => '* Поле :attribute повторюється з іншими продуктами',
             'numeric' => 'Поле :attribute повинно містити тільки числові значення'
         ];
     }

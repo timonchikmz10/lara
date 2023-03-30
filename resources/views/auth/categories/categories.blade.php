@@ -1,4 +1,4 @@
-@extends('profile.layouts.master')
+@extends('auth.layouts.master')
 @section('title', 'Категорії')
 @section('content')
     <x-slot name="header">
@@ -29,42 +29,65 @@
             font-size: 12px;
         }
     </style>
-    @foreach($categories as $category)
-        <div style="padding-bottom: 0 " class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <ul>
-                            <li>title: {{$category->title}}</li>
-                            <li>description:{{$category->description}}</li>
-                            <li>code:{{$category->code}}</li>
-                        </ul>
-                        <div style="float:right">
-                            <form method="POST" action="{{route('categories.destroy', $category)}}">
-                            <a style='background-color: #5066da' type="button"
-                               href="{{route('categories.show', $category)}}" class="but">Продивитися
-                            </a>
-                            <a style='background-color: #e8a93a' type="button"
-                                    href="{{route('categories.edit', $category)}}" class="but">Змінити кактегорію
-                            </a>
-                                @method('DELETE')
-                                @csrf
-                            <input  type="submit"  class="but"
-                                value="Видалити категорію">
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <a style="float:right;" type="submit" href="{{route('categories.create')}}" class="butt">Додати категоію</a>
+                <div class="col-md-12">
+                    @foreach($categories as $category)
+                        <h1>{{$category->title}}</h1>
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>
+                                    Поле
+                                </th>
+                                <th>
+                                    Значение
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>ID</td>
+                                <td>{{ $category->id }}</td>
+                            </tr>
+                            <tr>
+                                <td>Код</td>
+                                <td>{{ $category->code }}</td>
+                            </tr>
+                            <tr>
+                                <td>Название</td>
+                                <td>{{ $category->title}}</td>
+                            </tr>
+                            <tr>
+                                <td>Описание</td>
+                                <td>{{ $category->description }}</td>
+                            </tr>
+                            <tr>
+                                <td>Кол-во товаров:</td>
+                                <td>{{ $category->products->count() }}</td>
+                            </tr>
+                            </tbody>
+                            <div style="float:right">
+                                <form method="POST" action="{{route('categories.destroy', $category)}}">
+                                    <a style='background-color: #5066da' type="button"
+                                       href="{{route('categories.show', $category)}}" class="but">Продивитися
+                                    </a>
+                                    <a style='background-color: #e8a93a' type="button"
+                                       href="{{route('categories.edit', $category)}}" class="but">Змінити кактегорію
+                                    </a>
+                                    @method('DELETE')
+                                    @csrf
+                                    <input type="submit" class="but"
+                                           value="Видалити категорію">
 
-                            </form>
-                        </div>
-                    </div>
+                                </form>
+                            </div>
+                        </table>
+                    @endforeach
+                    {{$categories->links()}}
                 </div>
-            </div>
-        </div>
-    @endforeach
-    <div style="padding-bottom: 0 " class="py-12">
-        <div style="max-width: 12rem" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div style="--tw-shadow:none;" class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-
-                <a type="submit" href="{{route('categories.create')}}" class="butt">Додати категоію</a>
-
             </div>
         </div>
     </div>

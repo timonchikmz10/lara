@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="order-col">
                                     <div><strong>TOTAL</strong></div>
-                                    <div><strong class="order-total">₴{{$order->fullPrice()}}</strong></div>
+                                    <div><strong class="order-total">₴{{$order->calculatefullPrice()}}</strong></div>
                                 </div>
                             </div>
                             <div class="payment-method">
@@ -194,7 +194,7 @@
                             </div>
                             <div class="order-col">
                                 <div><strong>TOTAL</strong></div>
-                                <div><strong class="order-total">₴{{$order->fullPrice()}}</strong></div>
+                                <div><strong class="order-total">₴{{$order->calculateFullSum()}}</strong></div>
                             </div>
                         </div>
                         <div class="payment-method">

@@ -9,18 +9,51 @@ use Illuminate\Support\Facades\Auth;
 class Order extends Model
 {
     use HasFactory;
-    public function products(){
+
+    public function products()
+    {
         return $this->belongsToMany(Product::class)->withPivot('count')->withTimestamps();
     }
-    public function fullPrice(){
+
+    public function calculateFullSum()
+    {
         $sum = 0;
-        foreach ($this->products as $product){
+        foreach ($this->products as $product) {
             $sum += $product->priceForCount();
         }
         return $sum;
     }
-    public function saveOrder($r){
-        if($this->status == 0) {
+    public static function eraseOrderSum(){
+        session()->forget('full_order_sum');
+    }
+    public static function changeFullSum($product, $character)
+    {
+        if($product->sale_price != 0){
+            $value = $product->sale_price;
+        }else{
+            $value = $product->price;
+        }
+        if($character == '+'){
+            $sum = self::fullSum() + $value;
+        }else {
+            $sum = self::fullSum() - $value;
+        }
+        session(['full_order_sum' => $sum]);
+    }
+
+    public static function fullSum()
+    {
+        return session('full_order_sum', 0);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function saveOrder($r)
+    {
+        if ($this->status == 0) {
             $this->name = $r->first_name;
             $this->last_name = $r->last_name;
             $this->zip_code = $r->zip_code;
@@ -30,13 +63,13 @@ class Order extends Model
             $this->city = $r->city;
             $this->email = $r->email;
             $this->status = 1;
-            if(Auth::check()){
+            if (Auth::check()) {
                 $this->user_id = Auth::id();
             }
             $this->save();
             session()->forget('orderId');
             return true;
-        }else{
+        } else {
             return false;
         }
     }

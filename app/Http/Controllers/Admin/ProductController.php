@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
+        $products = Product::paginate(20);
         return view('auth.products.index', compact('products'));
     }
 
@@ -35,13 +35,11 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         if($request->has('image')) {
-            $path = $request->file('image')->store('products');
             $params = $request->all();
+            $path = $request->file('image')->store('products');
             $params['image'] = $path;
-            Product::create($params);
-        }else{
-            Product::create($request->all());
         }
+        Product:create($params);
         session()->flash('success', 'Товар ' . $request->title . ' було створено');
         return redirect()->route('products.index');
     }
@@ -68,18 +66,22 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+//        dd($request->all());
+        $params = $request->all();
         if($request->has('image')){
             if($product->image) {
                 Storage::delete($product->image);
             }
             $path = $request->file('image')->store('products');
-            $params = $request->all();
             $params['image'] = $path;
-            $product->update($params);
-
-        }else {
-            $product->update($request->all());
         }
+        foreach (['hit', 'recommended', 'new'] as $fieldName) {
+            if (!isset($params[$fieldName])) {
+                $params[$fieldName] = 0;
+            }
+        }
+//        dd($params);
+        $product->update($params);
         session()->flash('success', 'Товар ' . $request->title . ' було змінено');
         return redirect()->route('products.index');
     }

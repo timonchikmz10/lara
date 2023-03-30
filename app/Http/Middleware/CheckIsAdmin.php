@@ -18,9 +18,6 @@ class CheckIsAdmin
     {
         $user = Auth::user();
             if (!$user->isAdmin()) {
-                if($request->path() == 'admin/orders'){
-                    return redirect()->route('profile-orders');
-                }
                 return redirect()->route('index');
             }
         return $next($request);

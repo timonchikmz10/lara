@@ -17,16 +17,10 @@ class BasketIsNotEmpty
     public function handle(Request $request, Closure $next): Response
     {
         $orderId = session('orderId');
-        if (!is_null($orderId)) {
-            $order = Order::findOrFail($orderId);
-            if($order->products->count() == 0){
-                session()->flash('warning', 'Ваш кошик порожній. Додайте нові товари.');
-                return redirect()->route('index');
-            }
-        }else{
+        if (!is_null($orderId) && Order::fullSum() > 0) {
+            return $next($request);
+        }
         session()->flash('warning', 'Ваш кошик порожній. Додайте нові товари.');
         return redirect()->route('shop');
-        }
-        return $next($request);
     }
 }

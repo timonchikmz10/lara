@@ -1,4 +1,4 @@
-@extends('profile.layouts.master')
+@extends('auth.layouts.master')
 @section('title', 'Замовлення')
 @section('content')
     <style>
@@ -13,39 +13,81 @@
             font-size: 16px;
         }
     </style>
-    @foreach($orders as $order)
-        <div style="padding-bottom: 0 " class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <ul>
-                            <li>ID: {{$order->id}}</li>
-                            <li>user_id:{{$order->user_id}}</li>
-                            <li>username:{{$order->name}}</li>
-                            <li>user_email:{{$order->email}}</li>
-                            <li>user_phone:{{$order->phone}}</li>
-                            <li>zip_code:{{$order->zip_code}}</li>
-                            <li>country:{{$order->country}}</li>
-                            <li>city:{{$order->city}}</li>
-                            <li>address:{{$order->address}}</li>
-                            <li>price:{{$order->fullPrice()}}</li>
-                        </ul>
+
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    @foreach($orders as $order)
+                        <h1>№ замовлення:{{$order->id}}</h1>
                         @admin
-                        <div style="float:right">
+                        <div style="float:right;">
                             <a type="button"
                                href="{{route('order-show', $order)}}" class="butt">Продивитися замовлення
                             </a>
                         </div>
                         @else
-                            <div style="float:right">
+                            <div style="float:right;">
                                 <a type="button"
                                    href="{{route('profile-order-show', $order)}}" class="butt">Продивитися замовлення
                                 </a>
                             </div>
                             @endadmin
-                    </div>
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>
+                                    Поле
+                                </th>
+                                <th>
+                                    Значення
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>ID замовлення:</td>
+                                <td>{{$order->id}}</td>
+                            </tr>
+                            <tr>
+                                <td>ID користувача:</td>
+                                <td>{{$order->user_id}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ім'я користувача:</td>
+                                <td>{{$order->name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email користувача:</td>
+                                <td>{{$order->email}}}</td>
+                            </tr>
+                            <tr>
+                                <td>Телефон користувача:</td>
+                                <td>{{$order->phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>ZIP-code:</td>
+                                <td>{{$order->zip_code}}</td>
+                            </tr>
+                            <tr>
+                                <td>Місто:</td>
+                                <td>{{$order->city}}</td>
+                            </tr>
+                            <tr>
+                                <td>Адреса:</td>
+                                <td>{{$order->address}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ціна замовлення:</td>
+                                <td>{{$order->calculatefullSum()}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                            @endforeach
+                            {{$orders->links()}}
                 </div>
             </div>
         </div>
-    @endforeach
+    </div>
+
 @endsection

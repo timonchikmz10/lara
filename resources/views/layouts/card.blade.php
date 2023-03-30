@@ -3,12 +3,25 @@
 <div class="col-md-4 col-xs-6">
     <div class="product">
         <div class="product-img">
-            <img src="{{Storage::url($product->image)}}" alt="">
-            <div class="product-label">
-                @if($product->new != 0)
-                <span class="new">NEW</span>
+            <div class="labels">
+            @if($product->isRecommended())
+                <div style="left: 5px; top: 90%" class="product-label">
+                    <span class="new-sale">Рекомендуємо</span>
+                </div>
+            @endif
+            @if($product->isHit())
+                <div style="left: 5px" class="product-label">
+                    <span class="new">Хіт!</span>
+                </div>
+            @else
+                @if($product->isNew())
+                    <div  style="right: 5px" class="product-label">
+                        <span class="new">Новинка</span>
+                    </div>
                 @endif
+            @endif
             </div>
+            <img style="width:100%; aspect-ratio : 1 / 1" src="{{Storage::url($product->image)}}" alt="">
         </div>
         <div class="product-body">
             <a href="{{route('category', $product->category->code)}}">
@@ -17,7 +30,7 @@
                 </p>
             </a>
             <h3 class="product-name"><a
-                    href="{{route('product', [$product->category->code, $product->code])}}">{{$product->title}}</a></h3>
+                    href="{{route('product', [isset($category) ? $category->code : $product->category->code])}}">{{$product->title}}</a></h3>
             @if($product->sale_price == 0)
                 <h4 class="product-price">{{$product->price}}</h4>
             @else

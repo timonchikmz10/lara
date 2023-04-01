@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-//    public function get_category(){
-//        $category = Category::find($this->category_id);
-//        return $category->title;
-//    }
+    use SoftDeletes;
     protected $fillable = [
         'code',
         'title',
@@ -22,14 +20,17 @@ class Product extends Model
         'sale_price',
         'short_description',
         'description',
-        'image'
+        'image',
+        'count',
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-
+    public function isAvailable(){
+        return $this->count > 0;
+    }
     public function priceForCount()
     {
         if ($this->sale_price == 0) {

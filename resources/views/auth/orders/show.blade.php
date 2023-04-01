@@ -80,7 +80,7 @@
                         </tbody>
                     </table>
                 </div>
-                @foreach($order->products as $product)
+                @foreach($products as $product)
                     <div class="col-md-12">
                         <h1>Товар: {{ $product->title }}</h1>
                         <table class="table">

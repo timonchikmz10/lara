@@ -54,7 +54,11 @@
             </div>
         </div>
         <div class="add-to-cart">
-            <button type= "submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+            @if($product->isAvailable())
+            <button type= "submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>До кошика</button>
+            @else
+                <div style="color:white">Немає в наявності</div>
+            @endif
         </div>
     </div>
 </div>

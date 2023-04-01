@@ -1107,7 +1107,7 @@ textarea.input {
 
 .product .product-img .labels .product-label {
     position: absolute;
-    top:5px;
+    top: 5px;
 }
 
 .product .product-img .product-label > span {
@@ -1735,6 +1735,10 @@ textarea.input {
     transition: 0.2s all;
 }
 
+.product-details .add-to-cart .add-to-cart-btn > a {
+    font-weight: 700;
+}
+
 .product-details .add-to-cart .add-to-cart-btn > i {
     position: absolute;
     left: 0;
@@ -1952,9 +1956,6 @@ textarea.input {
 .reviews .review-heading .review-rating > i.fa-star {
     color: #D10024;
 }
-
-
-
 
 
 /*-- Review Form --*/

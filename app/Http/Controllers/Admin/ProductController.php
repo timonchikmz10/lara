@@ -92,7 +92,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        Storage::delete($product->image);
         $product->delete();
         session()->flash('success', 'Товар ' . $product->title . ' був видален.');
         return redirect()->route('products.index');

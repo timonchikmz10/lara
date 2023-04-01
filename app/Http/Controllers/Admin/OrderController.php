@@ -18,8 +18,9 @@ class OrderController extends Controller
             $orders = Order::active()->paginate(20);
             return view('auth.orders.dashboard', compact('orders'));
     }
-    public function show(Order $order){
-
-        return view('auth.orders.show', compact('order'));
+    public function show(Order $order)
+    {
+        $products = $order->products()->withTrashed()->get();
+        return view('auth.orders.show', compact('order', 'products'));
     }
 }

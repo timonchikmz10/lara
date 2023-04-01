@@ -86,6 +86,10 @@
                                 <td>{{ $product->sale_price }}</td>
                             </tr>
                             <tr>
+                                <td>Кількість товару:</td>
+                                <td>{{ $product->count }}</td>
+                            </tr>
+                            <tr>
                                 <td>Створено:</td>
                                 <td>{{ $product->created_at }}</td>
                             </tr>

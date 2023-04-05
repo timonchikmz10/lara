@@ -48,17 +48,18 @@ Route::middleware('auth')->group(function () {
 });
 require __DIR__ . '/auth.php';
 Route::get('/categories', [MainController::class, 'categories'])->name('categories');
+Route::get('/subscription/{product}', [MainController::class, 'subscribe'])->name('subscription');
 Route::get('/shop', [MainController::class, 'shop'])->name('shop');
 Route::group([
     'prefix' => 'basket'], function (){
-    Route::post('/add/{id}', [BasketController::class, 'basketAdd'])->name('basket-add');
+    Route::post('/add/{product}', [BasketController::class, 'basketAdd'])->name('basket-add');
     Route::group([
         'middleware' => 'basket_is_not_empty'
     ], function () {
         Route::get('/', [BasketController::class, 'basket'])->name('basket');
         Route::get('/order', [BasketController::class, 'basketPlace'])->name('order');
         Route::post('/confirm', [BasketController::class, 'orderConfirm'])->name('order-confirm');
-        Route::post('/remove/{id}', [BasketController::class, 'basketRemove'])->name('basket-remove');
+        Route::post('/remove/{product}', [BasketController::class, 'basketRemove'])->name('basket-remove');
     });
 });
 Route::get('/{category}', [MainController::class, 'category'])->name('category');

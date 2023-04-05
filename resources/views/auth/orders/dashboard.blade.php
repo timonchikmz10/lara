@@ -54,12 +54,12 @@
                                 <td>{{$order->user_id}}</td>
                             </tr>
                             <tr>
-                                <td>Ім'я користувача:</td>
+                                <td>Ім'я:</td>
                                 <td>{{$order->name}}</td>
                             </tr>
                             <tr>
-                                <td>Email користувача:</td>
-                                <td>{{$order->email}}}</td>
+                                <td>Email:</td>
+                                <td>{{$order->email}}</td>
                             </tr>
                             <tr>
                                 <td>Телефон користувача:</td>

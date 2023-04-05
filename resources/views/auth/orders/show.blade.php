@@ -50,15 +50,19 @@
                             <td>{{$order->user_id}}</td>
                         </tr>
                         <tr>
-                            <td>Ім'я користувача:</td>
+                            <td>Ім'я:</td>
                             <td>{{$order->name}}</td>
                         </tr>
                         <tr>
-                            <td>Email користувача:</td>
+                            <td>Фамілія:</td>
+                            <td>{{$order->last_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
                             <td>{{$order->email}}}</td>
                         </tr>
                         <tr>
-                            <td>Телефон користувача:</td>
+                            <td>Телефон:</td>
                             <td>{{$order->phone}}</td>
                         </tr>
                         <tr>
@@ -72,6 +76,10 @@
                         <tr>
                             <td>Адреса:</td>
                             <td>{{$order->address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Повідомлення:</td>
+                            <td>{{$order->notes}}</td>
                         </tr>
                         <tr>
                             <td>Ціна замовлення:</td>

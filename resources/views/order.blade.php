@@ -38,62 +38,36 @@
                                 <h3 class="title">Billing address</h3>
                             </div>
                             <div class="form-group">
-                                <input class="input" id="first_name" type="text" name="first_name"
-                                       placeholder="First Name">
+                                <input class="input" id="first_name" type="text" name="name"
+                                       placeholder="Ім'я">
                             </div>
                             <div class="form-group">
                                 <input class="input" id="last_name" type="text" name="last_name"
-                                       placeholder="Last Name">
+                                       placeholder="Фамілія">
                             </div>
                             <div class="form-group">
-                                @auth
-                                    <input class="input" id="email" type="email" name="email"
-                                           value="{{Auth::user()->email}}" placeholder="Email">
-                                @else
+                                @guest
                                     <input class="input" id="email" type="email" name="email" placeholder="Email">
-                                @endauth
+                                @endguest
                             </div>
                             <div class="form-group">
-                                <input class="input" id="address" type="text" name="address" placeholder="Address">
+                                <input class="input" id="address" type="text" name="address" placeholder="Адреса">
                             </div>
                             <div class="form-group">
-                                <input class="input" id="city" type="text" name="city" placeholder="City">
+                                <input class="input" id="city" type="text" name="city" placeholder="Місто">
                             </div>
                             <div class="form-group">
-                                <input class="input" id="country" type="text" name="country" placeholder="Country">
+                                <input class="input" id="zip_code" type="text" name="zip_code" placeholder="Поштовий індекс">
                             </div>
                             <div class="form-group">
-                                <input class="input" id="zip_code" type="text" name="zip_code" placeholder="ZIP Code">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" id="phone" type="tel" name="phone" placeholder="Telephone">
+                                <input class="input" id="phone" type="tel" name="phone" placeholder="Телефон">
                             </div>
 
-
-                            @guest
-                                <div class="form-group">
-                                    <div class="input-checkbox">
-                                        <input type="checkbox" id="create-account">
-                                        <label for="create-account">
-                                            <span></span>
-                                            Create Account?
-                                        </label>
-                                        <div class="caption">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempor
-                                                incididunt.</p>
-                                            <input class="input" type="password" name="password"
-                                                   placeholder="Enter Your Password">
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        @endguest
                         <!-- /Billing Details -->
 
                         <!-- Order notes -->
                         <div class="order-notes">
-                            <textarea class="input" placeholder="Order Notes"></textarea>
+                            <textarea class="input" id="notes" name="notes" placeholder="Додати повідомлення"></textarea>
                         </div>
                         <!-- /Order notes -->
                     </div>
@@ -118,7 +92,7 @@
                                 </div>
                                 <div class="order-col">
                                     <div><strong>TOTAL</strong></div>
-                                    <div><strong class="order-total">₴{{$order->calculatefullPrice()}}</strong></div>
+                                    <div><strong class="order-total">₴{{$order->calculateFullSum()}}</strong></div>
                                 </div>
                             </div>
                             <div class="payment-method">

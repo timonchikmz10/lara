@@ -29,7 +29,7 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
     public function isAvailable(){
-        return $this->count > 0;
+        return !$this->trashed() && $this->count > 0;
     }
     public function priceForCount()
     {

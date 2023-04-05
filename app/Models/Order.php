@@ -10,6 +10,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id'];
+
     public function products()
     {
         return $this->belongsToMany(Product::class)->withPivot('count')->withTimestamps();
@@ -23,19 +25,22 @@ class Order extends Model
         }
         return $sum;
     }
-    public static function eraseOrderSum(){
+
+    public static function eraseOrderSum()
+    {
         session()->forget('full_order_sum');
     }
+
     public static function changeFullSum($product, $character)
     {
-        if($product->sale_price != 0){
+        if ($product->sale_price != 0) {
             $value = $product->sale_price;
-        }else{
+        } else {
             $value = $product->price;
         }
-        if($character == '+'){
+        if ($character == '+') {
             $sum = self::fullSum() + $value;
-        }else {
+        } else {
             $sum = self::fullSum() - $value;
         }
         session(['full_order_sum' => $sum]);
@@ -54,14 +59,14 @@ class Order extends Model
     public function saveOrder($r)
     {
         if ($this->status == 0) {
-            $this->name = $r->first_name;
+            $this->name = $r->name;
             $this->last_name = $r->last_name;
             $this->zip_code = $r->zip_code;
             $this->phone = $r->phone;
             $this->address = $r->address;
-            $this->country = $r->country;
             $this->city = $r->city;
-            $this->email = $r->email;
+            $this->email = Auth::user()->email;
+            $this->notes = $r->notes;
             $this->status = 1;
             if (Auth::check()) {
                 $this->user_id = Auth::id();

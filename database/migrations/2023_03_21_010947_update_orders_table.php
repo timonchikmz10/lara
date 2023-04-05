@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->string('last_name')->nullable()->after('name');
-            $table->string('email')->nullable()->after('phone');
+            $table->string('email')->nullable()->after('last_name');
             $table->string('zip_code')->nullable()->after('email');
-            $table->string('country')->nullable()->after('zip_code');
-            $table->string('city')->nullable()->after('country');
+            $table->string('city')->nullable()->after('zip_code');
             $table->string('address')->nullable()->after('city');
+            $table->string('notes')->nullable()->after('address');
         });
     }
 
@@ -30,9 +30,9 @@ return new class extends Migration
             $table->dropColumn('last_name');
             $table->dropColumn('email');
             $table->dropColumn('zip_code');
-            $table->dropColumn('country');
             $table->dropColumn('city');
             $table->dropColumn('address');
+            $table->dropColumn('notes');
         });
     }
 };

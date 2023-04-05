@@ -133,42 +133,48 @@
                             @endif
                         </div>
                         <p>{{$product->short_description}}</p>
-                        <form action="{{route('basket-add', $product)}}" method="POST">
-                            <div class="product-options">
-                                <label>
-                                    Розмір
-                                    <select class="input-select">
-                                        <option value="0">X</option>
-                                    </select>
-                                </label>
-                                <label>
-                                    Колір
-                                    <select class="input-select">
-                                        <option value="0">Red</option>
-                                    </select>
-                                </label>
-                            </div>
-
-                            <div class="add-to-cart">
-                                <div class="qty-label">
-                                    Кількість
-                                    <div class="input-number">
-                                        <input type="number">
-                                        <span class="qty-up">+</span>
-                                        <span class="qty-down">-</span>
-                                    </div>
+                        @if($product->isAvailable())
+                            <form action="{{route('basket-add', $product)}}" method="POST">
+                                <div class="product-options">
+                                    <label>
+                                        Розмір
+                                        <select class="input-select">
+                                            <option value="0">X</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        Колір
+                                        <select class="input-select">
+                                            <option value="0">Red</option>
+                                        </select>
+                                    </label>
                                 </div>
-                                @method('POST')
-                                @csrf
-                                @if($product->isAvailable())
+
+                                <div class="add-to-cart">
+                                    <div class="qty-label">
+                                        Кількість
+                                        <div class="input-number">
+                                            <input type="number">
+                                            <span class="qty-up">+</span>
+                                            <span class="qty-down">-</span>
+                                        </div>
+                                    </div>
+                                    @method('POST')
+                                    @csrf
                                     <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> до
                                         кошика
                                     </button>
-                                @else
-                                    <button class="btn btn-default">Немає в наяновсті</button>
-                                @endif
-                            </div>
-                        </form>
+                                </div>
+                            </form>
+                        @else
+                            <form action="{{ route('subscription', $product) }}" method="GET">
+                                <div class="add-to-cart">
+                                    @csrf
+                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Очікувати товар
+                                    </button>
+                                </div>
+                            </form>
+                        @endif
                         <ul class="product-btns">
                             <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                             <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>

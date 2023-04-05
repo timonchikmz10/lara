@@ -2,103 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
-use \DebugBar\DebugBar;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
     public function basket()
     {
-        $orderId = session('orderId');
-        if (!is_null($orderId)) {
-            $order = Order::findOrFail($orderId);
-            return view('basket', compact('order'));
-        }
-//        else {
-//            session()->flash('warning', 'Спочатку додайте товары до кошика');
-//            return redirect()->route('shop');
-//        }
-
+        $order = (new Basket())->getOrder();
+        return view('basket', compact('order'));
     }
 
     public function orderConfirm(Request $request)
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            session()->flash('warning', 'Спочатку додайте товары до кошика.');
-            return redirect()->route('shop');
-        }
-        $order = Order::find($orderId);
-        $success = $order->saveOrder($request);
-        if ($success) {
+        if ((new Basket())->saveOrder($request)) {
             session()->flash('success', 'Ваше замовлення чекає підтвердження.');
+            Order::eraseOrderSum();
         } else {
-            session()->flash('warning', 'Помилка');
-            return redirect()->route('basket/order');
+            session()->flash('warning', 'Помилка.');
+            return redirect()->route('order');
         }
-        Order::eraseOrderSum();
         return redirect()->route('index');
-
     }
 
     public function basketPlace()
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            session()->flash('warning', 'Спочатку додайте товары до кошика.');
-            return redirect()->route('shop');
+        $basket = new Basket();
+        $order = $basket->getOrder();
+        if(!$basket->countAvailable()){
+            session()-> flash('warning', 'Нажаль товар:  в такій кількості недоступний.' );
+            return redirect()->route('basket');
         }
-        $order = Order::find($orderId);
         return view('order', compact('order'));
     }
 
-    public function basketAdd($productId)
+    public function basketAdd(Product $product)
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            $order = Order::create();
-            session(['orderId' => $order->id]);
-        } else {
-            $order = Order::find($orderId);
+        $result = (new Basket(true))->addProduct($product);
+        if($result){
+            session()->flash('success', 'Додано товар: ' . $product->title . '.');
+        }else{
+            session()-> flash('warning', 'Нажаль товар: ' . $product->title . ' в більшій кількості недоступний.' );
         }
-        if ($order->products->contains($productId)) {
-            $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
-            $pivotRow->count++;
-            $pivotRow->update();
-        } else {
-            $order->products()->attach($productId);
-        }
-        if(Auth::check()){
-            $order->user_id = Auth::id();
-            $order->save();
-        }
-        $product = Product::find($productId);
-        Order::changeFullSum($product, '+');
-        session()->flash('success', 'Додано товар: ' . $product->title . '.');
         return redirect()->route('basket');
     }
 
-    public function basketRemove($productId)
+    public function basketRemove(Product $product)
     {
-        $orderId = session('orderId');
-        $order = Order::find($orderId);
-        $product = Product::find($productId);
-        Order::changeFullSum($product, '-');
-        if ($order->products->contains($productId)) {
-            $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
-            if ($pivotRow->count < 2) {
-                $order->products()->detach($productId);
-                    session()->flash('warning', 'Товар ' . $product->title .  ' вилучено з кошика. Додайте нові товари.');
-            } else {
-                $pivotRow->count--;
-                $pivotRow->update();
-                session()->flash('warning', 'Товар ' . $product->title .' вилучено з кошика.');
-            }
-        }
+        (new Basket())->removeProduct($product);
+        session()->flash('warning', 'Товар ' . $product->title . ' вилучено з кошика.');
         return redirect()->route('basket');
-
     }
 }

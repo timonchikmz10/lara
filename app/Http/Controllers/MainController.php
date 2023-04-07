@@ -13,9 +13,21 @@ class MainController extends Controller
     public function index()
     {
         $categories = Category::get();
-        return view('index', compact('categories'));
+        $data[] = ['categories'];
+        $newProducts = Product::where('new', 1)->get();
+        $recommendedProducts = Product::where('recommended', 1)->get();
+        $hitProducts = Product::where('hit', 1)->get();
+        if (count($recommendedProducts) > 0) {
+            $data[] = ['recommendedProducts'];
+        }
+        if (count($newProducts) > 0) {
+            $data[] = ['newProducts'];
+        }
+        if (count($hitProducts) > 0) {
+            $data[] = ['hitProducts'];
+        }
+        return view('index', compact($data));
     }
-
     public function shop(Request $request)
     {
         $categories = Category::get();
@@ -44,14 +56,10 @@ class MainController extends Controller
                 }
             }
         }
+        $productsQuery->where('title', 'LIKE', "%{$request->search}%");
         $products = $productsQuery->Paginate(6)->withPath("?" . $request->getQueryString());
+        session()->flashInput($request->input());
         return view('shop', compact('products', 'categories'));
-    }
-
-    public function categories()
-    {
-        $categories = Category::get();
-        return view('categories', compact('categories'));
     }
 
     public function category($code)
@@ -63,7 +71,8 @@ class MainController extends Controller
     public function product($category, $productCode)
     {
         $product = Product::withTrashed('category')->where('code', $productCode)->firstOrFail();
-        return view('product', compact('product'));
+        $products = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->take(4)->get();
+        return view('product', compact('product', 'products'));
     }
 
     public function subscribe(Request $request, Product $product)
@@ -73,7 +82,8 @@ class MainController extends Controller
             'email' => $email,
             'product_id' => $product->id,
         ]);
-        session()->flash('success', 'Дякуємо за очікування, ми зробимо все можливе, щоб цей товар повернувся на полиці нашого магазину, очікуйте повідомлення на ' . $email);
+        session()->flash('success',
+            'Дякуємо за очікування, ми зробимо все можливе, щоб цей товар повернувся на полиці нашого магазину, очікуйте повідомлення на ' . $email);
         return redirect()->back();
     }
 

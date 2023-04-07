@@ -74,75 +74,22 @@
                 <!-- /LOGO -->
 
                 <!-- SEARCH BAR -->
-                <div class="col-md-6">
-                    <div class="header-search">
-                        <form>
-                            <select class="input-select">
-                                <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
-                            </select>
-                            <input class="input" placeholder="Search here">
-                            <button class="search-btn">Search</button>
-                        </form>
-                    </div>
-                </div>
                 <!-- /SEARCH BAR -->
 
                 <!-- ACCOUNT -->
-                <div class="col-md-3 clearfix">
+                <div class="col-md-9 clearfix">
                     <div class="header-ctn">
-                        <!-- Wishlist -->
-                        <div>
-                            <a href="#">
-                                <i class="fa fa-heart-o"></i>
-                                <span>Your Wishlist</span>
-                                <div class="qty">2</div>
-                            </a>
-                        </div>
-                        <!-- /Wishlist -->
-
                         <!-- Cart -->
                         <div class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>Your Cart</span>
-                                <div class="qty">3</div>
+                                <span>Кошик</span>
+                                @if(session()->has('orderId'))
+                                    @if(session()->get('count') > 0)
+                                        <div class="qty">{{session()->get('count')}}</div>
+                                    @endif
+                                @endif
                             </a>
-                            <div class="cart-dropdown">
-                                <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product02.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-                                </div>
-                                <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
-                                    <h5>SUBTOTAL: $2940.00</h5>
-                                </div>
-                                <div class="cart-btns">
-                                    <a href="{{ route('basket') }}">View Cart</a>
-                                    <a href="{{ route('order')  }}">Checkout <i
-                                            class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
                         </div>
                         <!-- /Cart -->
 
@@ -176,23 +123,22 @@
             <ul class="main-nav nav navbar-nav">
                 <li><a href="{{route('index')}}">Головна</a></li>
                 <li><a href="{{route('shop')}}">Сторінка магазину</a></li>
-                <li><a href="{{ route('categories') }}">Категорії</a></li>
                 <li><a href="{{route('basket')}}">Кошик</a></li>
                 @if (Route::has('login'))
                     @auth
                         @admin
-                            <li><a href="{{ route('dashboard') }}">Адміністративна панель</a></li>
-                        @else
-                            <li><a href="{{ route('profile.edit') }}">Профіль</a></li>
-                        @endadmin
+                        <li><a href="{{ route('dashboard') }}">Адміністративна панель</a></li>
                     @else
-                        <li><a href="{{ route('login') }}">Увійти</a></li>
+                        <li><a href="{{ route('profile.edit') }}">Профіль</a></li>
+                        @endadmin
+                        @else
+                            <li><a href="{{ route('login') }}">Увійти</a></li>
 
-                        @if (Route::has('register'))
-                            <li><a href="{{ route('register') }}">Зареєструватися</a></li>
-                        @endif
-                    @endauth
-                @endif
+                            @if (Route::has('register'))
+                                <li><a href="{{ route('register') }}">Зареєструватися</a></li>
+                            @endif
+                        @endauth
+                    @endif
             </ul>
             <!-- /NAV -->
         </div>
@@ -293,13 +239,6 @@
                         <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
                         <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
                     </ul>
-                    <span class="copyright">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
-                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                                                                                target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
                 </div>
             </div>
             <!-- /row -->

@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             'short_description' => 'required|min:5',
             'category_id' => 'required',
             'price' => 'required|numeric|min:1',
-            'sale_price' => 'numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
             'count' => 'required|numeric|min:0'
         ];
         if ($this->route()->named('products.update')) {

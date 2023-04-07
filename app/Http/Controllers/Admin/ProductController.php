@@ -38,8 +38,13 @@ class ProductController extends Controller
             $params = $request->all();
             $path = $request->file('image')->store('products');
             $params['image'] = $path;
+        }else{
+            $params = $request->all();
         }
-        Product:create($params);
+        if($request->sale_price == null) {
+            $params['sale_price'] = 0;
+        }
+        Product::create($params);
         session()->flash('success', 'Товар ' . $request->title . ' було створено');
         return redirect()->route('products.index');
     }

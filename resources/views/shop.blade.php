@@ -1,25 +1,5 @@
 @extends('layouts.master')
 @section('content')
-    <!-- BREADCRUMB -->
-    <div id="breadcrumb" class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="breadcrumb-tree">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">All Categories</a></li>
-                        <li><a href="#">Accessories</a></li>
-                        <li class="active">Headphones ({{$products->count()}} Results)</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- /row -->
-        </div>
-        <!-- /container -->
-    </div>
-    <!-- /BREADCRUMB -->
 
     <!-- SECTION -->
     <div class="section">
@@ -28,9 +8,13 @@
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
-                <form method="GET" action="{{route('shop')}}">
+                <form method="GET" action="{{route('shop')}}" enctype="multipart/form-data">
                     <div id="aside" class="col-md-3">
                         <!-- aside Widget -->
+                        <div class="search">
+                            <label for="search">Пошук</label>
+                            <input type="text" name="search" id="search" class="input" placeholder="Пошук" value="{{old('search')}}">
+                        </div>
                         <div class="aside">
                             <h3 class="aside-title">Категорії</h3>
                             <div class="checkbox-filter">
@@ -100,49 +84,7 @@
                             <button type="submit" class="btn btn-success btn-lg">Пошук</button>
                             <a href="{{route('shop')}}" class="btn btn-danger btn-lg">Скинути </a>
                         </div>
-                        <!-- aside Widget -->
-                        <div class="aside">
-                            <h3 class="aside-title">Top selling</h3>
-                            <div class="product-widget">
-                                <div class="product-img">
-                                    <img src="./img/product01.png" alt="">
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Category</p>
-                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 class="product-price">$980.00
-                                        <del class="product-old-price">$990.00</del>
-                                    </h4>
-                                </div>
-                            </div>
 
-                            <div class="product-widget">
-                                <div class="product-img">
-                                    <img src="./img/product02.png" alt="">
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Category</p>
-                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 class="product-price">$980.00
-                                        <del class="product-old-price">$990.00</del>
-                                    </h4>
-                                </div>
-                            </div>
-
-                            <div class="product-widget">
-                                <div class="product-img">
-                                    <img src="./img/product03.png" alt="">
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Category</p>
-                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 class="product-price">$980.00
-                                        <del class="product-old-price">$990.00</del>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /aside Widget -->
                     </div>
                     <!-- /ASIDE -->
                     @csrf
@@ -151,11 +93,14 @@
                     <div id="store" class="col-md-9">
                         <!-- store products -->
                         <div class="row">
-
+                            @if(count($products))
                             <!-- products -->
                             @foreach($products as $product)
                                 @include('layouts.card', ['product' => $product])
                             @endforeach
+                            @else
+                                <h1>Нажаль таких товарів не знайдено</h1>
+                            @endif
                             <!-- /products -->
 
 

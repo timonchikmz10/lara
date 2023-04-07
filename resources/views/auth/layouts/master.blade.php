@@ -76,14 +76,9 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form>
-                            <select class="input-select">
-                                <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
-                            </select>
-                            <input class="input" placeholder="Search here">
-                            <button class="search-btn">Search</button>
+                        <form method="GET" action="{{route('shop')}}">
+                            <input class="input" placeholder="Пошук">
+                            <button class="search-btn">Знайти</button>
                         </form>
                     </div>
                 </div>
@@ -92,75 +87,37 @@
                 <!-- ACCOUNT -->
                 <div class="col-md-3 clearfix">
                     <div class="header-ctn">
-                        <!-- Wishlist -->
-                        <div>
-                            <a href="#">
-                                <i class="fa fa-heart-o"></i>
-                                <span>Your Wishlist</span>
-                                <div class="qty">2</div>
-                            </a>
-                        </div>
-                        <!-- /Wishlist -->
-
-                        <!-- Cart -->
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span>Your Cart</span>
-                                <div class="qty">3</div>
-                            </a>
-                            <div class="cart-dropdown">
-                                <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product02.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-                                </div>
-                                <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
-                                    <h5>SUBTOTAL: $2940.00</h5>
-                                </div>
-                                <div class="cart-btns">
-                                    <a href="{{ route('basket') }}">View Cart</a>
-                                    <a href="{{ route('order')  }}">Checkout <i
-                                            class="fa fa-arrow-circle-right"></i></a>
-                                </div>
+                        <div class="header-ctn">
+                            <!-- Cart -->
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Кошик</span>
+                                    @if(session()->has('orderId'))
+                                        @if(session()->get('count') > 0)
+                                            <div class="qty">{{session()->get('count')}}</div>
+                                        @endif
+                                    @endif
+                                </a>
                             </div>
-                        </div>
-                        <!-- /Cart -->
+                            <!-- /Cart -->
 
-                        <!-- Menu Toogle -->
-                        <div class="menu-toggle">
-                            <a href="#">
-                                <i class="fa fa-bars"></i>
-                                <span>Menu</span>
-                            </a>
+                            <!-- Menu Toogle -->
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
                         </div>
-                        <!-- /Menu Toogle -->
                     </div>
+                    <!-- /ACCOUNT -->
                 </div>
-                <!-- /ACCOUNT -->
+                <!-- row -->
             </div>
-            <!-- row -->
+            <!-- container -->
         </div>
-        <!-- container -->
     </div>
     <!-- /MAIN HEADER -->
 </header>
@@ -176,13 +133,12 @@
             <form method="POST" action="{{ route('logout') }}">
                 <ul class="main-nav nav navbar-nav">
                     @admin
-                    <li><a href="{{Route('index')}}" >На головну</a></li>
+                    <li><a href="{{Route('index')}}">На головну</a></li>
                     <li><a href="{{ route('dashboard') }}">Усі замовлення</a></li>
                     <li><a href="{{route('categories.index')}}">Усі категорії</a></li>
                     <li><a href="{{route('products.index')}}">Усі продукти</a></li>
                     <li><a href="{{route('profile.edit')}}">Змінити профіль</a></li>
                     <li><a href="{{route('reset')}}">Онулювати налаштування</a></li>
-                    <li><a href="{{route('basket')}}">Кошик</a></li>
                     @else
                         <li><a href="{{route('index')}}">На головну</a></li>
                         <li><a href="{{ route('profile.edit') }}">Профіль</a></li>
@@ -299,13 +255,6 @@
                         <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
                         <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
                     </ul>
-                    <span class="copyright">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
-                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                                                                                target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
                 </div>
             </div>
             <!-- /row -->

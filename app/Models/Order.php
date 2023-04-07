@@ -30,7 +30,13 @@ class Order extends Model
     {
         session()->forget('full_order_sum');
     }
-
+    public function basketCount(){
+        $count = 0;
+        foreach ($this->products()->get() as $product){
+            $count += $product->pivot->count;
+        }
+        return $count;
+    }
     public static function changeFullSum($product, $character)
     {
         if ($product->sale_price != 0) {
@@ -55,7 +61,9 @@ class Order extends Model
     {
         return $query->where('status', 1);
     }
-
+    public function scopeInactive($query){
+        return $query->where('status', 0);
+    }
     public function saveOrder($r)
     {
         if ($this->status == 0) {

@@ -47,7 +47,6 @@ Route::middleware('auth')->group(function () {
 //    Rute::get('', )
 });
 require __DIR__ . '/auth.php';
-Route::get('/categories', [MainController::class, 'categories'])->name('categories');
 Route::get('/subscription/{product}', [MainController::class, 'subscribe'])->name('subscription');
 Route::get('/shop', [MainController::class, 'shop'])->name('shop');
 Route::group([

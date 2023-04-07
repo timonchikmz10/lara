@@ -24,6 +24,8 @@ class Basket
         } else {
             $this->order = Order::findOrFail($orderId);
         }
+        $count = $this->order->basketCount();
+        session(['count' => $count]);
     }
     protected function getPivot($product){
         return $this->order->products()->where('product_id', $product->id)->first()->pivot;
@@ -58,10 +60,14 @@ class Basket
         return true;
     }
     public function removeProduct(Product $product){
+        $sess = session('count');
         if ($this->order->products->contains($product->id)) {
             $pivotRow = $this->getPivot($product);
             if ($pivotRow->count < 2) {
                 $this->order->products()->detach($product->id);
+                if($sess == 1){
+                    session(['count' => 0]);
+                }
                 session()->flash('warning', 'Товар ' . $product->title . ' вилучено з кошика. Додайте нові товари.');
             } else {
                 $pivotRow->count--;

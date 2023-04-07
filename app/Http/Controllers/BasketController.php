@@ -44,7 +44,7 @@ class BasketController extends Controller
         if($result){
             session()->flash('success', 'Додано товар: ' . $product->title . '.');
         }else{
-            session()-> flash('warning', 'Нажаль товар: ' . $product->title . ' в більшій кількості недоступний.' );
+            session()->flash('warning', 'Нажаль товар: ' . $product->title . ' в більшій кількості недоступний.' );
         }
         return redirect()->route('basket');
     }

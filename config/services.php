@@ -30,8 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-    'novaposhta' => [
-    'key' =>env('NOVA_POSHTA_KEY'),
+    'liqpay' => [
+      'public_key' => env('LIQ_PUBLIC_KEY'),
+      'private_key' => env('LIQ_PRIVATE_KEY'),
     ],
+
 
 ];

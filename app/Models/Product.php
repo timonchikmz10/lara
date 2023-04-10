@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'code',
         'title',
@@ -22,15 +23,24 @@ class Product extends Model
         'description',
         'image',
         'count',
+        'weight',
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-    public function isAvailable(){
+
+    public function color()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function isAvailable()
+    {
         return !$this->trashed() && $this->count > 0;
     }
+
     public function priceForCount()
     {
         if ($this->sale_price == 0) {

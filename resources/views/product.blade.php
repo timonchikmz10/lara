@@ -71,7 +71,7 @@
                 <div class="col-md-2  col-md-pull-5">
                     <div id="product-imgs">
                         <div class="product-preview">
-                            <img src="./img/product01.png" alt="">
+                            <img src="{{Storage::url($product->image)}}" alt="">
                         </div>
 
                         <div class="product-preview">
@@ -154,7 +154,7 @@
                                     <div class="qty-label">
                                         Кількість
                                         <div class="input-number">
-                                            <input type="number">
+                                            <input value="{{old('count', 1)}}" name="count" id="count" type="number">
                                             <span class="qty-up">+</span>
                                             <span class="qty-down">-</span>
                                         </div>

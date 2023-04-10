@@ -38,11 +38,6 @@
                     {{route('categories.store')}}
                     @endisset
                     " method="POST" enctype="multipart/form-data">
-                            @isset($product)
-                                <h1><b> Змінитии товар: {{$product->title}} </b></h1>
-                            @else
-                                <h1><b> Cтворити товар </b></h1>
-                            @endisset
                         @isset($category)
                             @method('PUT')
                             @csrf
@@ -52,12 +47,12 @@
                                 <input value="{{old('code', isset($category) ? $category->code :null)}}" class="input" id="code" name="code">
                             </div>
                             <div class="form-group">
-                                <label for="code">Назва:</label>
+                                <label for="title">Назва:</label>
                                 @include('layouts.errors', ['fieldName'=>'title'])
                                 <input value="{{old('title', isset($category) ? $category->title :null)}}" class="input" id="title" name="title">
                             </div>
                             <div class="form-group">
-                                <label for="code">Опис:</label>
+                                <label for="description">Опис:</label>
                                 @include('layouts.errors', ['fieldName'=>'description'])
                                 <input value="{{old('description', isset($category) ? $category->description :null)}}" class="input" id="description" name="description">
                             </div>
@@ -84,12 +79,12 @@
                                 <input value="{{old('code')}}" class="input" id="code" name="code">
                             </div>
                             <div class="form-group">
-                                <label for="code">Назва:</label>
+                                <label for="title">Назва:</label>
                                 @include('layouts.errors', ['fieldName'=>'title'])
                                 <input value="{{old('title')}}" class="input" id="title" name="title">
                             </div>
                             <div class="form-group">
-                                <label for="code">Опис:</label>
+                                <label for="description">Опис:</label>
                                 @include('layouts.errors', ['fieldName'=>'description'])
                                 <input value="{{old('description')}}" class="input" id="description" name="description">
                             </div>

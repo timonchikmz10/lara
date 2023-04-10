@@ -76,11 +76,11 @@ class Basket
         }
         Order::changeFullSum($product, '-');
     }
-    public function addProduct(Product $product)
+    public function addProduct(Product $product, $count = 1)
     {
         if ($this->order->products->contains($product->id)) {
             $pivotRow = $this->getPivot($product);
-            $pivotRow->count++;
+            $pivotRow->count += $count;
             if($pivotRow->count > $product->count){
                 return false;
             }
@@ -90,8 +90,11 @@ class Basket
                 return false;
             }
             $this->order->products()->attach($product->id);
+            $pivotRow = $this->getPivot($product);
+            $pivotRow->count = $count;
+            $pivotRow->update();
         }
-        Order::changeFullSum($product, '+');
+        Order::changeFullSum($product, '+', $count);
         return true;
     }
 }

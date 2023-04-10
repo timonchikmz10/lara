@@ -37,7 +37,7 @@ class Order extends Model
         }
         return $count;
     }
-    public static function changeFullSum($product, $character)
+    public static function changeFullSum($product, $character, $count = 1)
     {
         if ($product->sale_price != 0) {
             $value = $product->sale_price;
@@ -45,7 +45,7 @@ class Order extends Model
             $value = $product->price;
         }
         if ($character == '+') {
-            $sum = self::fullSum() + $value;
+            $sum = self::fullSum() + $value * $count;
         } else {
             $sum = self::fullSum() - $value;
         }
@@ -68,6 +68,7 @@ class Order extends Model
     {
         if ($this->status == 0) {
             $this->name = $r->name;
+            $this->second_name = $r->second_name;
             $this->last_name = $r->last_name;
             $this->zip_code = $r->zip_code;
             $this->phone = $r->phone;
@@ -75,6 +76,7 @@ class Order extends Model
             $this->city = $r->city;
             $this->email = Auth::user()->email;
             $this->notes = $r->notes;
+            $this->order_number = $r->order_number;
             $this->status = 1;
             if (Auth::check()) {
                 $this->user_id = Auth::id();

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
+use Daaner\NovaPoshta\Models\Address;
 use Illuminate\Http\Request;
+use Daaner\NovaPoshta\Models\Common;
 
 class BasketController extends Controller
 {
@@ -31,23 +33,48 @@ class BasketController extends Controller
     {
         $basket = new Basket();
         $order = $basket->getOrder();
-        if(!$basket->countAvailable()){
-            session()-> flash('warning', 'Нажаль товар:  в такій кількості недоступний.' );
+        if (!$basket->countAvailable()) {
+            session()->flash('warning', 'Нажаль товар:  в такій кількості недоступний.');
             return redirect()->route('basket');
         }
-        return view('order', compact('order'));
+        return view('order', compact('order',));
     }
 
-    public function basketAdd(Product $product)
+    public function basketAdd(Product $product, Request $request)
     {
-        $result = (new Basket(true))->addProduct($product);
-        if($result){
+
+        $result = (new Basket(true))->addProduct($product, $request->count != null  ? $request->count : 1);
+        if ($result) {
             session()->flash('success', 'Додано товар: ' . $product->title . '.');
-        }else{
-            session()->flash('warning', 'Нажаль товар: ' . $product->title . ' в більшій кількості недоступний.' );
+        } else {
+            session()->flash('warning', 'Нажаль товар: ' . $product->title . ' в більшій кількості недоступний.');
         }
         return redirect()->route('basket');
     }
+
+    public function orderCity(Request $request)
+    {
+        $adr = new Address;
+        $cities = $adr->getSettlements($request->city);
+        return view('city', compact('cities'));
+    }
+
+    public function orderWarehouse($city)
+    {
+        $adr = new Address;
+        $warehouses = $adr->getWarehouseSettlements($city);
+        return view('warehouse', compact('warehouses'));
+    }
+
+    public function orderInfo($warehouse)
+    {
+        $basket = new Basket();
+        $order = $basket->getOrder();
+        $adr = new Address;
+        $test = $adr->getCities($warehouse, false);
+        return view('order_confirm', compact('test', 'order'));
+    }
+
 
     public function basketRemove(Product $product)
     {

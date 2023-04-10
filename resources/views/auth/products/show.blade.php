@@ -78,6 +78,10 @@
                             <td>Остання зміна:</td>
                             <td>{{$product->updated_at}}</td>
                         </tr>
+                        <tr>
+                            <td>Вага у грамах:</td>
+                            <td>{{$product->weight}}</td>
+                        </tr>
                         <a style='background-color: #e8a93a' type="button"
                            href="{{route('products.edit', $product)}}" class="but">Змінити товар
                         </a>

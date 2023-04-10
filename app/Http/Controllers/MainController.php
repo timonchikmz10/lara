@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Daaner\NovaPoshta\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subscription;
@@ -28,6 +29,7 @@ class MainController extends Controller
         }
         return view('index', compact($data));
     }
+
     public function shop(Request $request)
     {
         $categories = Category::get();
@@ -71,7 +73,8 @@ class MainController extends Controller
     public function product($category, $productCode)
     {
         $product = Product::withTrashed('category')->where('code', $productCode)->firstOrFail();
-        $products = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->take(4)->get();
+        $products = Product::where('category_id', $product->category_id)->where('id', '!=',
+            $product->id)->take(4)->get();
         return view('product', compact('product', 'products'));
     }
 

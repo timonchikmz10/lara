@@ -80,6 +80,11 @@
                                            value="{{old('sale_price', $product->sale_price)}}">
                                 </div>
                                 <div class="form-group">
+                                    <label for="weight">Вага у грамах: </label>
+                                    @include('layouts.errors', ['fieldName'=>'weight'])
+                                    <input name="weight" id="weight" class="input" value="{{old('weight', $product->weight)}}">
+                                </div>
+                                <div class="form-group">
                                     <label for="count">Кількість товару</label>
                                     @include('layouts.errors', ['fieldName'=>'count'])
                                     <input class="input" type="text" name="count" id="count"
@@ -162,6 +167,11 @@
                                     @include('layouts.errors', ['fieldName'=>'sale_price'])
                                     <input class="input" type="text" name="sale_price" id="sale_price"
                                            value="{{old('sale_price')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="weight">Вага у грамах: </label>
+                                    @include('layouts.errors', ['fieldName'=>'weight'])
+                                    <input name="weight" id="weight" class="input" value="{{old('weight', $product->weight)}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="count">Кількість товару</label>

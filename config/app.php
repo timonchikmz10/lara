@@ -195,6 +195,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+//        App\Providers\NovaPoshtaServiceProvider::class,
+        Daaner\NovaPoshta\NovaPoshtaServiceProvider::class,
+
     ],
 
     /*
@@ -210,6 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'NovaPoshta' => Daaner\NovaPoshta\Facades\NovaPoshta::class,
     ])->toArray(),
 
 ];

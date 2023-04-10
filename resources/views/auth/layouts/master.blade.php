@@ -73,19 +73,9 @@
                 </div>
                 <!-- /LOGO -->
 
-                <!-- SEARCH BAR -->
-                <div class="col-md-6">
-                    <div class="header-search">
-                        <form method="GET" action="{{route('shop')}}">
-                            <input class="input" placeholder="Пошук">
-                            <button class="search-btn">Знайти</button>
-                        </form>
-                    </div>
-                </div>
-                <!-- /SEARCH BAR -->
 
                 <!-- ACCOUNT -->
-                <div class="col-md-3 clearfix">
+                <div class="col-md-9 clearfix">
                     <div class="header-ctn">
                         <div class="header-ctn">
                             <!-- Cart -->
@@ -137,6 +127,7 @@
                     <li><a href="{{ route('dashboard') }}">Усі замовлення</a></li>
                     <li><a href="{{route('categories.index')}}">Усі категорії</a></li>
                     <li><a href="{{route('products.index')}}">Усі продукти</a></li>
+                    <li><a href="{{route('colors.index')}}">Усі кольори</a></li>
                     <li><a href="{{route('profile.edit')}}">Змінити профіль</a></li>
                     <li><a href="{{route('reset')}}">Онулювати налаштування</a></li>
                     @else

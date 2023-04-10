@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CollectProduct;
 use Daaner\NovaPoshta\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
@@ -88,6 +89,12 @@ class MainController extends Controller
         session()->flash('success',
             'Дякуємо за очікування, ми зробимо все можливе, щоб цей товар повернувся на полиці нашого магазину, очікуйте повідомлення на ' . $email);
         return redirect()->back();
+    }
+
+    public function collections()
+    {
+        $collections = CollectProduct::get();
+        return view('auth.collections.index', compact('collections'));
     }
 
 

@@ -17,6 +17,8 @@ class Product extends Model
         'hit',
         'recommended',
         'category_id',
+        'color_id',
+        'size_id',
         'price',
         'sale_price',
         'short_description',
@@ -31,9 +33,14 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function color()
+    public function colors()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->withPivot('count')->withTimestamps();
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Color::class)->withPivot('count')->withTimestamps();
     }
 
     public function isAvailable()
@@ -94,6 +101,7 @@ class Product extends Model
     {
         return $this->recommended === 1;
     }
+
 
     use HasFactory;
 }

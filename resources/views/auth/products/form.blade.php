@@ -67,6 +67,40 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+
+                                <div class="form-group">
+                                    <label for="size_id">Розмір</label>
+                                    <select class="form-control" name="size_id" id="size_id">
+                                        @foreach($sizes as $size)
+                                            <option
+                                                value="{{$size->id}}"
+                                                @if($size->id == $product->size_id)
+                                                    selected
+                                                @endif
+                                            >{{$size->title}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="color_id">Колір</label>
+                                    <select class="form-control" name="color_id" id="color_id">
+                                        @foreach($colors as $color)
+                                            <option
+                                                value="{{$color->id}}"
+                                                @if($color->id == $product->color_id)
+                                                    selected
+                                                @endif
+                                            >{{$color->title}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
                                 <div class="form-group">
                                     <label for="price">Ціна</label>
                                 @include('layouts.errors', ['fieldName'=>'price'])

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sizes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
+        Schema::create('product_property', function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('property_id')->constrained();
             $table->timestamps();
+            $table->integer('property_count')->default(1);
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sizes');
+        Schema::dropIfExists('product_property');
     }
 };

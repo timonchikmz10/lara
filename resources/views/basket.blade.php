@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-8">
                             <div class="items">
-                                @foreach($order->products()->with('category')->get() as $product)
+                                @foreach($order->products()->with('category')->with('properties')->get() as $product)
                                     <div class="product">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -28,6 +28,7 @@
                                                                     </div>
                                                                     <div>RAM: <span class="value">4GB</span></div>
                                                                     <div>Memory: <span class="value">32GB</span></div>
+                                                                    <input type="text" readonly  name="property_id" id="property_id" value="{{$product->properties()->first()->id}}">
                                                                 </div>
                                                             </div>
                                                         </div>

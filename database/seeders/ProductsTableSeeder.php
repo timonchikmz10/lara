@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +16,6 @@ class ProductsTableSeeder extends Seeder
     {
         DB::table('products')->insert([
             [
-                'color_id' => 1,
-                'size_id' => 1,
                 'category_id' => 1,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -30,8 +29,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 1
             ],
             [
-                'color_id' => 1,
-                'size_id' => 1,
                 'category_id' => 1,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -45,8 +42,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0
             ],
             [
-                'color_id' => 1,
-                'size_id' => 1,
                 'category_id' => 1,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -60,8 +55,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0
             ],
             [
-                'color_id' => 2,
-                'size_id' => 2,
                 'category_id' => 2,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -75,8 +68,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 1
             ],
             [
-                'color_id' => 2,
-                'size_id' => 2,
                 'category_id' => 2,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -90,8 +81,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0
             ],
             [
-                'color_id' => 2,
-                'size_id' => 2,
                 'category_id' => 2,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -105,8 +94,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0
             ],
             [
-                'color_id' => 3,
-                'size_id' => 3,
                 'category_id' => 3,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -120,8 +107,7 @@ class ProductsTableSeeder extends Seeder
                 'new' => 1
             ],
             [
-                'color_id' => 3,
-                'size_id' => 3,
+
                 'category_id' => 3,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -135,8 +121,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0
             ],
             [
-                'color_id' => 3,
-                'size_id' => 3,
                 'category_id' => 3,
                 'weight' => '500',
                 'count' => rand(0, 10),
@@ -150,5 +134,6 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0
             ],
         ]);
+
     }
 }

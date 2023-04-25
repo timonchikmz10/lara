@@ -1,5 +1,5 @@
 @extends('auth.layouts.master')
-@section('title', 'Колір: ' . $color->title)
+@section('title', 'Колір: ' . $property->title . ' розмір ' . $property->size_title )
 @section('content')
 
     <style>
@@ -31,7 +31,7 @@
             <!-- row -->
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Колір {{ $color->title }}</h1>
+                    <h1>Колір {{ $property->title }} Розмір {{$property->size_title}}</h1>
                     <table class="table">
                         <tbody>
                         <tr>
@@ -44,15 +44,15 @@
                         </tr>
                         <tr>
                             <td>ID</td>
-                            <td>{{ $color->id }}</td>
+                            <td>{{ $property->id }}</td>
                         </tr>
                         <tr>
                             <td>Rgb код</td>
-                            <td>{{ $color->rgb_code }}</td>
+                            <td>{{ $property->rgb_code }}</td>
                         </tr>
                         <tr>
                             <td>Назва</td>
-                            <td>{{ $color->title}}</td>
+                            <td>{{ $property->title}}</td>
                         </tr>
                         </tbody>
                     </table>

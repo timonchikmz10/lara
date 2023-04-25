@@ -137,15 +137,12 @@
                             <form action="{{route('basket-add', $product)}}" method="POST">
                                 <div class="product-options">
                                     <label>
-                                        Розмір
-                                        <select class="input-select">
-                                            <option value="0">X</option>
-                                        </select>
-                                    </label>
-                                    <label>
                                         Колір
-                                        <select class="input-select">
-                                            <option value="0">Red</option>
+                                        <select class="input-select" name="property_id" id="property_id">
+                                            @foreach($properties as $property)
+                                                <option
+                                                    value="{{$property->id}}">{{$property->title}}</option>
+                                            @endforeach
                                         </select>
                                     </label>
                                 </div>

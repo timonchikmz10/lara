@@ -33,15 +33,17 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function colors()
+    public function productProperties()
     {
-        return $this->belongsTo(Category::class)->withPivot('count')->withTimestamps();
+        return $this->hasMany(ProductProperty::class);
     }
 
-    public function sizes()
-    {
-        return $this->belongsToMany(Color::class)->withPivot('count')->withTimestamps();
-    }
+//    public function properties()
+//    {
+//        return $this->belongsToMany(Property::class)
+//            ->withTimestamps()
+//            ->withPivot(['property_count']);
+//    }
 
     public function isAvailable()
     {

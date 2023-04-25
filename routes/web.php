@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Person\OrdersController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\PropertyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     ],function (){
         Route::resource('categories', CategoryController::class);
         Route::resource('products', ProductController::class);
-        Route::resource('colors', ColorController::class);
+        Route::resource('properties', PropertyController::class);
         Route::get('/orders', [OrderController::class, 'orders'])->name('dashboard');
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order-show');
     });

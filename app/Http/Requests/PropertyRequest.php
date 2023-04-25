@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ColorRequest extends FormRequest
+class PropertyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,10 @@ class ColorRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'rgb_code' => 'required|min:6|max:100|unique:colors,rgb_code',
-            'title' => 'required|min:3|max:100|unique:colors,title',
+            'rgb_code' => 'required|min:6|max:100|unique:properties,rgb_code',
+            'title' => 'required|min:3|max:100|unique:properties,title',
         ];
-        if ($this->route()->named('colors.update')) {
+        if ($this->route()->named('properties.update')) {
             $rules['rgb_code'] .= ',' . $this->route()->parameter('color')->id;
             $rules['title'] .= ',' . $this->route()->parameter('color')->id;;
         }

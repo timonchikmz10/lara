@@ -127,7 +127,7 @@
                     <li><a href="{{ route('dashboard') }}">Усі замовлення</a></li>
                     <li><a href="{{route('categories.index')}}">Усі категорії</a></li>
                     <li><a href="{{route('products.index')}}">Усі продукти</a></li>
-                    <li><a href="{{route('colors.index')}}">Усі кольори</a></li>
+                    <li><a href="{{route('properties.index')}}">Усі артрібути</a></li>
                     <li><a href="{{route('profile.edit')}}">Змінити профіль</a></li>
                     <li><a href="{{route('reset')}}">Онулювати налаштування</a></li>
                     @else

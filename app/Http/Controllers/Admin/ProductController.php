@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
-use App\Models\Color;
 use App\Models\Product;
-use App\Models\Size;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,8 +26,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $properties = Property::get();
         $categories = Category::get();
-        return view('auth.products.form', compact('categories'));
+        return view('auth.products.form', compact('categories', 'properties'));
     }
 
     /**
@@ -46,7 +46,17 @@ class ProductController extends Controller
         if($request->sale_price == null) {
             $params['sale_price'] = 0;
         }
-        Product::create($params);
+        $product = Product::create($params);
+        if($request->properties){
+            foreach ($request->properties as $key => $property){
+                $product->productProperties()->create([
+                    'product_id' => $product->id,
+                    'property_id' => $property,
+                    'property_count' => $request->quantity[$key] ?? 0
+                ]);
+            }
+        }
+//        $product->properties()->attach($request->property_id ,['property_count' => $request->property_count]);
         session()->flash('success', 'Товар ' . $request->title . ' було створено');
         return redirect()->route('products.index');
     }
@@ -65,9 +75,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::get();
-        $sizes = Size::get();
-        $colors = Color::get();
-        return view('auth.products.form', compact('categories', ['product', 'colors', 'sizes']));
+        $product = Product::with('productProperties')->where('id', $product->id)->first();
+        $properties = Property::get();
+        return view('auth.products.form', compact('categories', 'product', 'properties'));
     }
 
     /**
@@ -89,7 +99,24 @@ class ProductController extends Controller
                 $params[$fieldName] = 0;
             }
         }
-//        dd($params);
+        foreach ($request->properties as $key => $property){
+            if($product->productProperties()->where('property_id', $property)->first()){
+                $product->productProperties()->where('property_id', $property)->update([
+                    'property_count' => $request->quantity[$key] ?? 0]);
+            }else{
+                $product->productProperties()->create([
+                    'product_id' => $product->id,
+                    'property_id' => $property,
+                    'property_count' => $request->quantity[$key] ?? 0
+                ]);
+            }
+            foreach($product->productProperties()->get() as $productProperty){
+                if(!in_array( $productProperty->property_id, $request->properties)){
+                    $product->productProperties()->where('property_id', $productProperty->property_id)->delete();
+                }
+            }
+        }
+//        $product->properties()->attach(['property_id' => $request->property_id,  'property_count' => $request->property_count]);
         $product->update($params);
         session()->flash('success', 'Товар ' . $request->title . ' було змінено');
         return redirect()->route('products.index');

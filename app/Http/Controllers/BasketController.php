@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Basket;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Property;
 use Daaner\NovaPoshta\Models\Address;
 use Illuminate\Http\Request;
 use Daaner\NovaPoshta\Models\Common;
@@ -42,8 +43,9 @@ class BasketController extends Controller
 
     public function basketAdd(Product $product, Request $request)
     {
-
-        $result = (new Basket(true))->addProduct($product, $request->count != null  ? $request->count : 1);
+        $property_id = $request->property_id;
+        $product = Product::with('properties')->where('id', $product->id)->first();
+        $result = (new Basket(true))->addProduct($product, $request->count != null  ? $request->count : 1 , $property_id);
         if ($result) {
             session()->flash('success', 'Додано товар: ' . $product->title . '.');
         } else {

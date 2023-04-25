@@ -1,5 +1,5 @@
 @extends('auth.layouts.master')
-@section('title', 'Кольори')
+@section('title', 'Атрібути')
 @section('content')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -34,10 +34,10 @@
         <div class="container">
             <!-- row -->
             <div class="row">
-                <a style="float:right;" type="submit" href="{{route('colors.create')}}" class="butt">Додати колір</a>
+                <a style="float:right;" type="submit" href="{{route('properties.create')}}" class="butt">Додати колір</a>
                 <div class="col-md-12">
-                    @foreach($colors as $color)
-                        <h1>{{$color->title}}</h1>
+                    @foreach($properties as $property)
+                        <h1>{{$property->title}} {{$property->size_title}}</h1>
                         <table class="table">
                             <tbody>
                             <tr>
@@ -50,24 +50,28 @@
                             </tr>
                             <tr>
                                 <td>ID</td>
-                                <td>{{ $color->id }}</td>
+                                <td>{{ $property->id }}</td>
                             </tr>
                             <tr>
                                 <td>RGB код</td>
-                                <td>{{ $color->rgb_code }}</td>
+                                <td>{{ $property->rgb_code }}</td>
+                            </tr>
+                            <tr>
+                                <td>Розір</td>
+                                <td>{{ $property->size_title}}</td>
                             </tr>
                             <tr>
                                 <td>Назва</td>
-                                <td>{{ $color->title}}</td>
+                                <td>{{ $property->title}}</td>
                             </tr>
                             </tbody>
                             <div style="float:right">
-                                <form method="POST" action="{{route('colors.destroy', $color)}}">
+                                <form method="POST" action="{{route('properties.destroy', $property)}}">
                                     <a style='background-color: #5066da' type="button"
-                                       href="{{route('colors.show', $color)}}" class="but">Продивитися
+                                       href="{{route('properties.show', $property)}}" class="but">Продивитися
                                     </a>
                                     <a style='background-color: #e8a93a' type="button"
-                                       href="{{route('colors.edit', $color)}}" class="but">Змінити колір
+                                       href="{{route('properties.edit', $property)}}" class="but">Змінити колір
                                     </a>
                                     @method('DELETE')
                                     @csrf
@@ -78,7 +82,7 @@
                             </div>
                         </table>
                     @endforeach
-                    {{$colors->links()}}
+                    {{$properties->links()}}
                 </div>
             </div>
         </div>

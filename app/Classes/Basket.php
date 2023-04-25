@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Classes;
+
 use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
-use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class Basket
 {
     protected $order;
+
     public function __construct($createOrder = false)
     {
         $orderId = session('orderId');
@@ -27,9 +28,14 @@ class Basket
         $count = $this->order->basketCount();
         session(['count' => $count]);
     }
-    protected function getPivot($product){
-        return $this->order->products()->where('product_id', $product->id)->first()->pivot;
+
+    protected function getPivot($product, $property_id)
+    {
+//        return $this->order->products()->where('product_id', $product->id)->first()->pivot;
+        return $this->order->products()->where('product_id', $product->id)->first()->properties()->where('property_id',
+            $property_id)->first()->pivot;
     }
+
     /**
      * @return mixed
      */
@@ -37,35 +43,41 @@ class Basket
     {
         return $this->order;
     }
-    public function countAvailable($updateCount = false){
-        foreach ($this->order->products as $product){
+
+    public function countAvailable($updateCount = false)
+    {
+        foreach ($this->order->products as $product) {
             if ($product->count < $this->getPivot($product)->count) {
                 return false;
             }
-            if($updateCount){
+            if ($updateCount) {
                 $product->count -= $this->getPivot($product)->count;
             }
         }
-        if($updateCount){
+        if ($updateCount) {
             $this->order->products->map->save();
         }
         return true;
     }
-    public function saveOrder($request){
-        if(!$this->countAvailable(true)){
+
+    public function saveOrder($request)
+    {
+        if (!$this->countAvailable(true)) {
             return false;
         }
         Mail::to(Auth::user()->email)->send(new OrderCreated($request->name, $this->getOrder()));
         $this->order->saveOrder($request);
         return true;
     }
-    public function removeProduct(Product $product){
+
+    public function removeProduct(Product $product)
+    {
         $sess = session('count');
         if ($this->order->products->contains($product->id)) {
             $pivotRow = $this->getPivot($product);
             if ($pivotRow->count < 2) {
                 $this->order->products()->detach($product->id);
-                if($sess == 1){
+                if ($sess == 1) {
                     session(['count' => 0]);
                 }
                 session()->flash('warning', 'Товар ' . $product->title . ' вилучено з кошика. Додайте нові товари.');
@@ -74,27 +86,37 @@ class Basket
                 $pivotRow->update();
             }
         }
-        Order::changeFullSum($product, '-');
+        Order::changeFullSum($product, false);
     }
-    public function addProduct(Product $product, $count = 1)
+
+    public function addProduct(Product $product, $count = 1, $property_id)
     {
         if ($this->order->products->contains($product->id)) {
-            $pivotRow = $this->getPivot($product);
-            $pivotRow->count += $count;
-            if($pivotRow->count > $product->count){
+            $pivotRow = $this->getPivot($product, $property_id);
+            $pivotRow->property_count += $count;
+            if ($pivotRow->property_count > $product->properties()->where('id',
+                    $property_id)->first()->pivot->property_count) {
                 return false;
             }
             $pivotRow->update();
         } else {
-            if($product->count == 0){
+            if ($product->count == 0) {
+                return false;
+            }
+            if ($count > $product->count) {
                 return false;
             }
             $this->order->products()->attach($product->id);
-            $pivotRow = $this->getPivot($product);
-            $pivotRow->count = $count;
+            $this->order->products()->where('product_id', $product->id)->first()->properties()->attach($property_id, [
+                'property_count' => $count, ]);
+            $pivotRow = $this->getPivot($product, $property_id);
+            $pr = $this->order->products()->where('product_id', $product->id)->first()->pivot;
+            $pr->count = $count;
+            $pivotRow->property_count = $count;
+            $pr->update();
             $pivotRow->update();
         }
-        Order::changeFullSum($product, '+', $count);
+        Order::changeFullSum($product, true, $count);
         return true;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CollectProduct;
+use App\Models\Property;
 use Daaner\NovaPoshta\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
@@ -73,10 +74,12 @@ class MainController extends Controller
 
     public function product($category, $productCode)
     {
-        $product = Product::withTrashed('category')->where('code', $productCode)->firstOrFail();
+        $product = Product::with('productProperties')->withTrashed('category')->where('code', $productCode)->firstOrFail();
+        $product_properties = $product->productProperties->pluck('property_id')->toArray();
+        $properties = Property::whereIn('id', $product_properties)->get();
         $products = Product::where('category_id', $product->category_id)->where('id', '!=',
             $product->id)->take(4)->get();
-        return view('product', compact('product', 'products'));
+        return view('product', compact('product', 'products', 'properties'));
     }
 
     public function subscribe(Request $request, Product $product)
@@ -90,12 +93,4 @@ class MainController extends Controller
             'Дякуємо за очікування, ми зробимо все можливе, щоб цей товар повернувся на полиці нашого магазину, очікуйте повідомлення на ' . $email);
         return redirect()->back();
     }
-
-    public function collections()
-    {
-        $collections = CollectProduct::get();
-        return view('auth.collections.index', compact('collections'));
-    }
-
-
 }

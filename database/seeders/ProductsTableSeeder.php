@@ -18,7 +18,7 @@ class ProductsTableSeeder extends Seeder
             [
                 'category_id' => 1,
                 'weight' => '500',
-                'count' => rand(0, 10),
+                'count' => 10,
                 'image' => 'products/product01.png',
                 'code' => 'cover_1',
                 'title' => 'Чехол №1',

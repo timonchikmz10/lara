@@ -4,9 +4,12 @@ namespace App\Classes;
 
 use App\Mail\OrderCreated;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
+use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Ramsey\Uuid\Type\Integer;
 
 class Basket
 {
@@ -32,8 +35,7 @@ class Basket
     protected function getPivot($product, $property_id)
     {
 //        return $this->order->products()->where('product_id', $product->id)->first()->pivot;
-        return $this->order->products()->where('product_id', $product->id)->first()->properties()->where('property_id',
-            $property_id)->first()->pivot;
+        return $this->order->products()->wherePivot('color_id', '=', $property_id)->first()->pivot;
     }
 
     /**
@@ -89,32 +91,21 @@ class Basket
         Order::changeFullSum($product, false);
     }
 
-    public function addProduct(Product $product, $count = 1, $property_id)
+    public function addProduct(Product $product, int $count = 1, int $property_id)
     {
-        if ($this->order->products->contains($product->id)) {
-            $pivotRow = $this->getPivot($product, $property_id);
-            $pivotRow->property_count += $count;
-            if ($pivotRow->property_count > $product->properties()->where('id',
-                    $property_id)->first()->pivot->property_count) {
+        if ($this->order->products()->wherePivot('color_id', '=', $property_id)->exists()) {
+            $counter = OrderProduct::where('order_id', $this->order->id)->where('product_id', $product->id)->where('color_id', $property_id)->first();
+            if ($counter->counter > $product->productProperties()->where('property_id',
+                    $property_id)->first()->property_count) {
                 return false;
             }
-            $pivotRow->update();
+            $counter->counter += $count;
+            $counter->update();
         } else {
-            if ($product->count == 0) {
+            if ($product->count == 0 || $count > $product->count) {
                 return false;
             }
-            if ($count > $product->count) {
-                return false;
-            }
-            $this->order->products()->attach($product->id);
-            $this->order->products()->where('product_id', $product->id)->first()->properties()->attach($property_id, [
-                'property_count' => $count, ]);
-            $pivotRow = $this->getPivot($product, $property_id);
-            $pr = $this->order->products()->where('product_id', $product->id)->first()->pivot;
-            $pr->count = $count;
-            $pivotRow->property_count = $count;
-            $pr->update();
-            $pivotRow->update();
+            $this->order->products()->attach($product->id, ['color_id' => $property_id, 'counter' => $count]);
         }
         Order::changeFullSum($product, true, $count);
         return true;

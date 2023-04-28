@@ -14,9 +14,9 @@ class PropertiesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('properties')->insert([
-            ['title' => 'Червоний', 'rgb_code' => '#444444'],
-            ['title' => 'Зелений', 'rgb_code' => '#444444'],
-            ['title' => 'Жовтий', 'rgb_code' => '#444444'],
+            ['title' => 'Червоний'],
+            ['title' => 'Зелений'],
+            ['title' => 'Жовтий'],
         ]);
     }
 }

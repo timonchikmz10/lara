@@ -53,9 +53,9 @@ class Product extends Model
     public function priceForCount()
     {
         if ($this->sale_price == 0) {
-            return $this->pivot->count * $this->price;
+            return $this->pivot->counter * $this->price;
         } else {
-            return $this->pivot->count * $this->sale_price;
+            return $this->pivot->counter * $this->sale_price;
         }
     }
 

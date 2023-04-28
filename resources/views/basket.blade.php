@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-8">
                             <div class="items">
-                                @foreach($order->products()->with('category')->with('properties')->get() as $product)
+                                @foreach($order->products as $product)
                                     <div class="product">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -28,7 +28,7 @@
                                                                     </div>
                                                                     <div>RAM: <span class="value">4GB</span></div>
                                                                     <div>Memory: <span class="value">32GB</span></div>
-                                                                    <input type="text" readonly  name="property_id" id="property_id" value="{{$product->properties()->first()->id}}">
+                                                                    <input type="text" readonly  name="property_id" id="property_id" value="{{$properties->where('id', $product->pivot->color_id)->first()->title}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -42,7 +42,7 @@
                                                                     @csrf
                                                                 </form>
                                                                 <input style="left:0px" readonly
-                                                                       value="{{$product->pivot->count}}" type="number"
+                                                                       value="{{$product->pivot->counter}}" type="number"
                                                                        step="1" max="" name="quantity"
                                                                        class="quantity-field">
                                                                 <form style="display: inline-block "

@@ -15,7 +15,8 @@ class BasketController extends Controller
     public function basket()
     {
         $order = (new Basket())->getOrder();
-        return view('basket', compact('order'));
+        $properties = Property::get();
+        return view('basket', compact('order', 'properties'));
     }
 
     public function orderConfirm(Request $request)
@@ -44,7 +45,7 @@ class BasketController extends Controller
     public function basketAdd(Product $product, Request $request)
     {
         $property_id = $request->property_id;
-        $product = Product::with('properties')->where('id', $product->id)->first();
+        $product = Product::with('productProperties')->where('id', $product->id)->first();
         $result = (new Basket(true))->addProduct($product, $request->count != null  ? $request->count : 1 , $property_id);
         if ($result) {
             session()->flash('success', 'Додано товар: ' . $product->title . '.');

@@ -14,13 +14,15 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('count')->withTimestamps();
+        return $this->belongsToMany(Product::class)
+            ->withPivot('counter', 'color_id')
+            ->withTimestamps();
     }
 
-    public function properties()
-    {
-        return $this->hasManyThrough(Property::class, Product::class)->withPivot('property_count')->withTimeStamps();
-    }
+//    public function properties()
+//    {
+//        return $this->hasManyThrough(Product::class)->withTimeStamps();
+//    }
 
     public function calculateFullSum()
     {
@@ -40,7 +42,7 @@ class Order extends Model
     {
         $count = 0;
         foreach ($this->products()->get() as $product) {
-            $count += $product->pivot->count;
+            $count += $product->pivot->counter;
         }
         return $count;
     }

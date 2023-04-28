@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order_product', function (Blueprint $table) {
-            $table->integer('count')->default('1')->after('product_id');
+            $table->integer('counter')->default('1')->after('product_id');
+            $table->integer('color_id')->default('0')->after('counter');
         });
     }
 

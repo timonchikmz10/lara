@@ -79,9 +79,10 @@ class BasketController extends Controller
     }
 
 
-    public function basketRemove(Product $product)
+    public function basketRemove(Product $product, Request $request)
     {
-        (new Basket())->removeProduct($product);
+        $property_id = $request->property_id;
+        (new Basket())->removeProduct($product, $property_id);
         session()->flash('warning', 'Товар ' . $product->title . ' вилучено з кошика.');
         return redirect()->route('basket');
     }

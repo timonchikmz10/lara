@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Middleware\TrustHosts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -38,12 +39,40 @@ class Product extends Model
         return $this->hasMany(ProductProperty::class);
     }
 
-//    public function properties()
-//    {
-//        return $this->belongsToMany(Property::class)
-//            ->withTimestamps()
-//            ->withPivot(['property_count']);
-//    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function thumbnails()
+    {
+        return $this->hasMany(Thumbnails::class);
+    }
+
+    public function rating()
+    {
+        $count = 0;
+        $result = 0;
+        foreach ($this->comments()->get() as $comment) {
+            $result += $comment->mark;
+            $count++;
+        }
+        if ($count != 0) {
+            return round($result / $count, 1);
+        } else {
+            return 0;
+        }
+    }
+
+    public function percentRating($value)
+    {
+        $count = $this->comments()->where('mark', $value)->count();
+        if ($count != 0) {
+            return round(100 / ($this->comments()->count() / $count), 0);
+        } else {
+            return 0;
+        }
+    }
 
     public function isAvailable()
     {

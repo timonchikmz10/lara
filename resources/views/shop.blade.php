@@ -39,7 +39,7 @@
                                 <div id="price-slider"></div>
                                 <div class="input-number price-min">
                                     <input @if(request()->price_min != null) value="{{request()->price_min}}"
-                                           @else  value="{{$products->min('sale_price')}}" @endif id="price-min"
+                                           @else  value="{{$price_min}}" @endif id="price-min"
                                            name="price_min" type="number">
                                     <span class="qty-up">+</span>
                                     <span class="qty-down">-</span>
@@ -47,7 +47,7 @@
                                 <span>-</span>
                                 <div class="input-number price-max">
                                     <input @if(request()->price_max != null) value="{{request()->price_max}}"
-                                           @else value="{{$products->max('price')}}" @endif id="price-max"
+                                           @else value="{{$price_max}}" @endif id="price-max"
                                            name="price_max" type="number">
                                     <span class="qty-up">+</span>
                                     <span class="qty-down">-</span>

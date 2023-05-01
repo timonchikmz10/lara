@@ -35,8 +35,11 @@ class Basket
     protected function getPivot($product, $property_id)
     {
 //        return $this->order->products()->where('product_id', $product->id)->first()->pivot;
-        return $this->order->products()->wherePivot('color_id', '=', $property_id)->first()->pivot;
+//        return $this->order->products()->wherePivot('color_id', '=', $property_id)->first()->pivot;
+        return OrderProduct::where('order_id', $this->order->id)->where('product_id', $product->id)->where('color_id',
+            $property_id)->first();
     }
+
 
     /**
      * @return mixed
@@ -72,21 +75,19 @@ class Basket
         return true;
     }
 
-    public function removeProduct(Product $product)
+    public function removeProduct(Product $product, int $property_id)
     {
         $sess = session('count');
-        if ($this->order->products->contains($product->id)) {
-            $pivotRow = $this->getPivot($product);
-            if ($pivotRow->count < 2) {
-                $this->order->products()->detach($product->id);
-                if ($sess == 1) {
-                    session(['count' => 0]);
-                }
-                session()->flash('warning', 'Товар ' . $product->title . ' вилучено з кошика. Додайте нові товари.');
-            } else {
-                $pivotRow->count--;
-                $pivotRow->update();
+        $pivotRow = $this->getPivot($product, $property_id);
+        if ($pivotRow->counter == 1) {
+            $pivotRow->delete();
+            if ($sess == 1) {
+                session(['count' => 0]);
             }
+            session()->flash('warning', 'Товар ' . $product->title . ' вилучено з кошика. Додайте нові товари.');
+        } else {
+            $pivotRow->counter--;
+            $pivotRow->update();
         }
         Order::changeFullSum($product, false);
     }
@@ -94,7 +95,8 @@ class Basket
     public function addProduct(Product $product, int $count = 1, int $property_id)
     {
         if ($this->order->products()->wherePivot('color_id', '=', $property_id)->exists()) {
-            $counter = OrderProduct::where('order_id', $this->order->id)->where('product_id', $product->id)->where('color_id', $property_id)->first();
+            $counter = OrderProduct::where('order_id', $this->order->id)->where('product_id',
+                $product->id)->where('color_id', $property_id)->first();
             if ($counter->counter > $product->productProperties()->where('property_id',
                     $property_id)->first()->property_count) {
                 return false;

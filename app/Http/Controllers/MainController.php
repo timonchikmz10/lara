@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CollectProduct;
+use App\Models\Comment;
 use App\Models\Property;
+use App\Models\User;
 use Daaner\NovaPoshta\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
@@ -42,6 +44,8 @@ class MainController extends Controller
         if ($request->filled('price_max')) {
             $productsQuery->where('price', '<=', $request->price_max);
         }
+        $price_min = Product::all()->min('sale_price');
+        $price_max = Product::all()->max('price');
         foreach (['hit', 'recommended', 'new'] as $field) {
             if ($request->has($field)) {
                 $productsQuery->$field();
@@ -63,7 +67,7 @@ class MainController extends Controller
         $productsQuery->where('title', 'LIKE', "%{$request->search}%");
         $products = $productsQuery->Paginate(6)->withPath("?" . $request->getQueryString());
         session()->flashInput($request->input());
-        return view('shop', compact('products', 'categories'));
+        return view('shop', compact('products', 'categories', 'price_min', 'price_max'));
     }
 
     public function category($code)
@@ -74,12 +78,19 @@ class MainController extends Controller
 
     public function product($category, $productCode)
     {
-        $product = Product::with('productProperties')->withTrashed('category')->where('code', $productCode)->firstOrFail();
+        $product = Product::with('productProperties')->withTrashed('category')->where('code',
+            $productCode)->firstOrFail();
+        $comments = $product->comments()->Paginate(5);
+        $users = User::get();
         $product_properties = $product->productProperties->pluck('property_id')->toArray();
         $properties = Property::whereIn('id', $product_properties)->get();
         $products = Product::where('category_id', $product->category_id)->where('id', '!=',
             $product->id)->take(4)->get();
-        return view('product', compact('product', 'products', 'properties'));
+        if (Auth::check()) {
+            $com = $product->comments()->where('user_id', Auth::user()->id)->first();
+            return view('product', compact('product', 'products', 'properties', 'comments', 'users', 'com'));
+        }
+        return view('product', compact('product', 'products', 'properties', 'comments', 'users'));
     }
 
     public function subscribe(Request $request, Product $product)

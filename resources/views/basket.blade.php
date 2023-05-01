@@ -35,7 +35,7 @@
                                                         <div class="col-md-4 quantity">
                                                             <div class="input-group">
                                                                 <form style="display: inline-block;"
-                                                                      action="{{route('basket-remove', $product)}}"
+                                                                      action="{{route('basket-remove', ['product' => $product, 'property_id' => $product->pivot->color_id ])}}"
                                                                       method="POST">
                                                                     <button type="submit" class="button-minus">-
                                                                     </button>
@@ -46,7 +46,7 @@
                                                                        step="1" max="" name="quantity"
                                                                        class="quantity-field">
                                                                 <form style="display: inline-block "
-                                                                      action="{{route('basket-add', $product)}}"
+                                                                      action="{{route('basket-add',  [ 'product' =>  $product, 'property_id' => $product->pivot->color_id ])}}"
                                                                       method="POST">
                                                                     <button type="submit" class="button-plus">+</button>
                                                                     @csrf

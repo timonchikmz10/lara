@@ -67,28 +67,28 @@
                                         @endforeach
                                     </select>
                                 </div>
-{{--                                @foreach($product->properties as $property)--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <label for="size_id">Розмір</label>--}}
-{{--                                        <select class="form-control" name="property_id" id="property_id">--}}
-{{--                                            @foreach($properties as $prop)--}}
-{{--                                                <option--}}
-{{--                                                    value="{{$prop->id}}"--}}
-{{--                                                    @if($prop->id == $property->id)--}}
-{{--                                                        selected--}}
-{{--                                                    @endif--}}
-{{--                                                >{{$prop->title}}--}}
-{{--                                                    {{$prop->size_title}}--}}
-{{--                                                </option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <label for="property_count">Кількість товару з заданими атрібутами</label>--}}
-{{--                                        <input class="input" type="text" name="property_count" id="property_count"--}}
-{{--                                               value="{{old('property_count', $property->pivot->property_count)}}">--}}
-{{--                                    </div>--}}
-{{--                                @endforeach--}}
+                                {{--                                @foreach($product->properties as $property)--}}
+                                {{--                                    <div class="form-group">--}}
+                                {{--                                        <label for="size_id">Розмір</label>--}}
+                                {{--                                        <select class="form-control" name="property_id" id="property_id">--}}
+                                {{--                                            @foreach($properties as $prop)--}}
+                                {{--                                                <option--}}
+                                {{--                                                    value="{{$prop->id}}"--}}
+                                {{--                                                    @if($prop->id == $property->id)--}}
+                                {{--                                                        selected--}}
+                                {{--                                                    @endif--}}
+                                {{--                                                >{{$prop->title}}--}}
+                                {{--                                                    {{$prop->size_title}}--}}
+                                {{--                                                </option>--}}
+                                {{--                                            @endforeach--}}
+                                {{--                                        </select>--}}
+                                {{--                                    </div>--}}
+                                {{--                                    <div class="form-group">--}}
+                                {{--                                        <label for="property_count">Кількість товару з заданими атрібутами</label>--}}
+                                {{--                                        <input class="input" type="text" name="property_count" id="property_count"--}}
+                                {{--                                               value="{{old('property_count', $property->pivot->property_count)}}">--}}
+                                {{--                                    </div>--}}
+                                {{--                                @endforeach--}}
                                 <div class="form-group">
                                     <label for="price">Ціна</label>
                                     @include('layouts.errors', ['fieldName'=>'price'])
@@ -116,9 +116,11 @@
                                                             {{$property->title}}
                                                         </label>
                                                         <br/>
-                                                        Кількість: <input value="{{$product->productProperties()->where('property_id', $property->id)->first()->property_count}}" type="number"
-                                                                          name="quantity[{{$property->id}}]"
-                                                                          style="border: 1px solid; width: 90%">
+                                                        Кількість: <input
+                                                            value="{{$product->productProperties()->where('property_id', $property->id)->first()->property_count}}"
+                                                            type="number"
+                                                            name="quantity[{{$property->id}}]"
+                                                            style="border: 1px solid; width: 90%">
                                                     </div>
                                                 </div>
                                             @else
@@ -133,7 +135,7 @@
                                                             {{$property->title}}
                                                         </label>
                                                         <br/>
-                                                        Кількість: <input  type="number"
+                                                        Кількість: <input type="number"
                                                                           name="quantity[{{$property->id}}]"
                                                                           style="border: 1px solid; width: 90%">
                                                     </div>
@@ -179,6 +181,25 @@
                                         <label class="btn btn-default btn-file">
                                             Завантажити <input type="file" style="display: none;" name="image"
                                                                id="image">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="input-group row">
+                                    <label for="thumbnails" class="col-sm-2 col-form-label">Додаткові
+                                        зображення: </label>
+                                    <div class="col-sm-10">
+                                        <tr>
+                                            @if($product->thumbnails()->get())
+                                                @foreach($product->thumbnails()->get() as $thumbnail)
+                                                    <td><img src="{{asset(Storage::url($thumbnail->image)) }}"
+                                                             style="height: 240px"></td>
+                                                @endforeach
+                                            @endif
+                                        </tr>
+                                        <label class="btn btn-default btn-file">
+                                            Завантажити <input type="file" multiple style="display: none;"
+                                                               name="thumbnails[]"
+                                                               id="thumbnails">
                                         </label>
                                     </div>
                                 </div>
@@ -304,23 +325,36 @@
                                         </label>
                                     </div>
                                 </div>
-                                @foreach(['hit'=>'Хіт', 'recommended' =>'Рекомендоване', 'new'=>'Нове'] as $field => $title)
-                                    <div class="input-checkbox">
-                                        <input type="checkbox" id="{{$field}}" name="{{$field}}"
-                                               value="{{old($field)}}">
-                                        @include('layouts.errors', ['fieldName'=>$field])
-                                        <label for="{{$field}}">
-                                            <span></span>
-                                            {{$title}}
+                                <div class="input-group row">
+                                    <label for="thumbnails" class="col-sm-2 col-form-label">Додаткові
+                                        зображення: </label>
+                                    <div class="col-sm-10">
+                                        <label class="btn btn-default btn-file">
+                                            Завантажити <input type="file" multiple style="display: none;"
+                                                               name="thumbnails[]"
+                                                               id="thumbnails">
                                         </label>
                                     </div>
-                                @endforeach
-                                <button type='submit' class="butt">Зберегти</button>
-                            @endisset
-                        </form>
+                                </div>
+
                     </div>
+                    @foreach(['hit'=>'Хіт', 'recommended' =>'Рекомендоване', 'new'=>'Нове'] as $field => $title)
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="{{$field}}" name="{{$field}}"
+                                   value="{{old($field)}}">
+                            @include('layouts.errors', ['fieldName'=>$field])
+                            <label for="{{$field}}">
+                                <span></span>
+                                {{$title}}
+                            </label>
+                        </div>
+                    @endforeach
+                    <button type='submit' class="butt">Зберегти</button>
+                    @endisset
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

@@ -11,6 +11,7 @@ use App\Http\Controllers\Person\OrdersController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +52,8 @@ Route::middleware('auth')->group(function () {
 });
 require __DIR__ . '/auth.php';
 Route::get('/subscription/{product}', [MainController::class, 'subscribe'])->name('subscription');
+Route::post('/comment/{product}', [CommentController::class, 'index'])->name('comment');
+Route::post('/comment/update/{product}', [CommentController::class, 'update'])->name('comment-update');
 Route::get('/shop', [MainController::class, 'shop'])->name('shop');
 Route::group([
     'prefix' => 'basket'], function (){

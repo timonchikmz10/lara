@@ -56,6 +56,12 @@ class ProductController extends Controller
                 ]);
             }
         }
+        if($files = $request->file('thumbnails')){
+            foreach($files as $file){
+                $path = $file->store('products');
+                $product->thumbnails()->create(['image' => $path]);
+            }
+        }
 //        $product->properties()->attach($request->property_id ,['property_count' => $request->property_count]);
         session()->flash('success', 'Товар ' . $request->title . ' було створено');
         return redirect()->route('products.index');
@@ -85,7 +91,6 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-//        dd($request->all());
         $params = $request->all();
         if($request->has('image')){
             if($product->image) {
@@ -116,8 +121,18 @@ class ProductController extends Controller
                 }
             }
         }
-//        $product->properties()->attach(['property_id' => $request->property_id,  'property_count' => $request->property_count]);
         $product->update($params);
+
+        if($files = $request->file('thumbnails')){
+            foreach($product->thumbnails()->get() as $thumbnail){
+                Storage::delete($thumbnail->image);
+            }
+            $product->thumbnails()->delete();
+            foreach($files as $file){
+                $path = $file->store('products');
+                $product->thumbnails()->create(['image' => $path]);
+            }
+        }
         session()->flash('success', 'Товар ' . $request->title . ' було змінено');
         return redirect()->route('products.index');
     }

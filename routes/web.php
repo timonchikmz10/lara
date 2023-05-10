@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Person\OrdersController;
 use App\Http\Controllers\BasketController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\CommentController;
 /*
@@ -62,12 +61,14 @@ Route::group([
         'middleware' => 'basket_is_not_empty'
     ], function () {
         Route::get('/', [BasketController::class, 'basket'])->name('basket');
-        Route::get('/order', [BasketController::class, 'basketPlace'])->name('order');
-        Route::post('/city', [BasketController::class, 'orderCity'])->name('city');
-        Route::get('/warehouse/{city}', [BasketController::class, 'orderWarehouse'])->name('warehouse');
-        Route::get('/order/info/{warehouse}', [BasketController::class, 'orderInfo'])->name('order-info');
-        Route::get('/order/confirm/', [PaymentController::class, 'index'])->name('order-confirm');
-        Route::post('/confirm', [BasketController::class, 'orderConfirm'])->name('payment-confirm');
+        Route::middleware('auth')->group(function (){
+            Route::get('/order', [BasketController::class, 'basketPlace'])->name('order');
+            Route::post('/city', [BasketController::class, 'orderCity'])->name('city');
+            Route::get('/warehouse/{city}/{cityTitle}', [BasketController::class, 'orderWarehouse'])->name('warehouse');
+            Route::get('/order/info/{city}/{cityTitle}/{warehouseTitle}', [BasketController::class, 'orderInfo'])->name('order-info');
+            Route::post('/order/confirm/{cityTitle}/{warehouseTitle}/{cost}', [BasketController::class, 'orderConfirm'])->name('order-confirm');
+        });
+//        Route::post('/confirm', [BasketController::class, 'orderConfirm'])->name('payment-confirm');
         Route::post('/remove/{product}', [BasketController::class, 'basketRemove'])->name('basket-remove');
     });
 });

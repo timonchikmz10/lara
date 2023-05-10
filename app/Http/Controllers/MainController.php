@@ -82,7 +82,7 @@ class MainController extends Controller
             $productCode)->firstOrFail();
         $comments = $product->comments()->Paginate(5);
         $users = User::get();
-        $product_properties = $product->productProperties->pluck('property_id')->toArray();
+        $product_properties = $product->productProperties()->where('property_count', '>', '0')->pluck('property_id')->toArray();
         $properties = Property::whereIn('id', $product_properties)->get();
         $products = Product::where('category_id', $product->category_id)->where('id', '!=',
             $product->id)->take(4)->get();
@@ -100,8 +100,7 @@ class MainController extends Controller
             'email' => $email,
             'product_id' => $product->id,
         ]);
-        session()->flash('success',
-            'Дякуємо за очікування, ми зробимо все можливе, щоб цей товар повернувся на полиці нашого магазину, очікуйте повідомлення на ' . $email);
+        session()->flash('success', config('constants.SubMsg'). $email);
         return redirect()->back();
     }
 }

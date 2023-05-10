@@ -19,7 +19,8 @@
                 <table class="table">
                     <tbody>
                     @foreach($warehouses['result'] as $warehouse)
-                        <form action="{{route('order-info', $warehouse['CityRef'])}}">
+                        <form action="{{route('order-info', ['city' => $city, 'cityTitle' => $cityTitle ,'warehouseTitle' => $warehouse['Description']])}}">
+
                             <tr>
                                 <td>
                                     {{$warehouse['Description']}}

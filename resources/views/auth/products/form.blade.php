@@ -150,12 +150,12 @@
                                     <input name="weight" id="weight" class="input"
                                            value="{{old('weight', $product->weight)}}">
                                 </div>
-                                <div class="form-group">
-                                    <label for="count">Кількість товару</label>
-                                    @include('layouts.errors', ['fieldName'=>'count'])
-                                    <input class="input" type="text" name="count" id="count"
-                                           value="{{old('count', $product->count)}}">
-                                </div>
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="count">Кількість товару</label>--}}
+{{--                                    @include('layouts.errors', ['fieldName'=>'count'])--}}
+{{--                                    <input class="input" type="text" name="count" id="count"--}}
+{{--                                           value="{{old('count', $product->count)}}">--}}
+{{--                                </div>--}}
                                 <div class="order-notice">
                                     <label for="short_description">Короткий опис: </label>
                                     @include('layouts.errors', ['fieldName'=>'short_description'])
@@ -298,12 +298,12 @@
                                            value="{{old('weight')}}">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="count">Кількість товару</label>
-                                    @include('layouts.errors', ['fieldName'=>'count'])
-                                    <input class="input" type="text" name="count" id="count"
-                                           value="{{old('count')}}">
-                                </div>
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="count">Кількість товару</label>--}}
+{{--                                    @include('layouts.errors', ['fieldName'=>'count'])--}}
+{{--                                    <input class="input" type="text" name="count" id="count"--}}
+{{--                                           value="{{old('count')}}">--}}
+{{--                                </div>--}}
                                 <div class="order-notice">
                                     <label for="short_description">Короткий опис: </label>
                                     @include('layouts.errors', ['fieldName'=>'short_description'])

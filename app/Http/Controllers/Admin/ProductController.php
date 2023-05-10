@@ -36,6 +36,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        $sumCount = 0;
         if($request->has('image')) {
             $params = $request->all();
             $path = $request->file('image')->store('products');
@@ -49,6 +50,7 @@ class ProductController extends Controller
         $product = Product::create($params);
         if($request->properties){
             foreach ($request->properties as $key => $property){
+                $sumCount += $request->quantity[$key];
                 $product->productProperties()->create([
                     'product_id' => $product->id,
                     'property_id' => $property,
@@ -56,13 +58,13 @@ class ProductController extends Controller
                 ]);
             }
         }
+        $product->update(['count' => $sumCount]);
         if($files = $request->file('thumbnails')){
             foreach($files as $file){
                 $path = $file->store('products');
                 $product->thumbnails()->create(['image' => $path]);
             }
         }
-//        $product->properties()->attach($request->property_id ,['property_count' => $request->property_count]);
         session()->flash('success', 'Товар ' . $request->title . ' було створено');
         return redirect()->route('products.index');
     }
@@ -91,6 +93,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+        $sumCount = 0;
         $params = $request->all();
         if($request->has('image')){
             if($product->image) {
@@ -105,6 +108,7 @@ class ProductController extends Controller
             }
         }
         foreach ($request->properties as $key => $property){
+            $sumCount += $request->quantity[$key];
             if($product->productProperties()->where('property_id', $property)->first()){
                 $product->productProperties()->where('property_id', $property)->update([
                     'property_count' => $request->quantity[$key] ?? 0]);
@@ -121,6 +125,7 @@ class ProductController extends Controller
                 }
             }
         }
+        $params['count'] = $sumCount;
         $product->update($params);
 
         if($files = $request->file('thumbnails')){

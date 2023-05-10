@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('city')->nullable()->after('zip_code');
             $table->string('address')->nullable()->after('city');
             $table->string('notes')->nullable()->after('address');
-            $table->string('order_number')->nullable()->after('notes');
         });
     }
 

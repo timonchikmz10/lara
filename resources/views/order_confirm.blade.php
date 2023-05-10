@@ -24,7 +24,7 @@
     <!-- /BREADCRUMB -->
 
     <!-- SECTION -->
-    <form method="POST" action="{{route('payment-confirm')}}">
+    <form method="POST" action="{{route('order-confirm', ['cityTitle' => $cityTitle, 'warehouseTitle' => $warehouseTitle, 'cost' => $forecast['result'][0]['Cost'] ])}}">
         <div class="section">
             <!-- container -->
             <div class="container">
@@ -89,56 +89,69 @@
                                         </div>
                                     @endforeach
                                 </div>
+{{--                                @dd($forecast)--}}
+{{--                                @foreach($forecast['result'] as $cost)--}}
+{{--                                    {{$cost['Cost']}}--}}
+{{--                                @endforeach--}}
+
                                 <div class="order-col">
-                                    <div><strong>ПОВНА ЦІНА</strong></div>
+                                    <div><strong>ЦІНА ЗАМОВЛЕННЯ</strong></div>
                                     <div><strong class="order-total">₴{{$order->calculateFullSum()}}</strong></div>
                                 </div>
-                            </div>
-                            <div class="payment-method">
-                                <div class="input-radio">
-                                    <input type="radio" name="payment" id="payment-1">
-                                    <label for="payment-1">
-                                        <span></span>
-                                        Direct Bank Transfer
-                                    </label>
-                                    <div class="caption">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
+                                <div class="order-col">
+                                    <div><strong>ПРИБЛИЗНА ЦІНА ДОСТАВКИ</strong></div>
+                                    <div><strong style="font-size: 24px">₴{{$forecast['result'][0]['Cost']}}</strong></div>
                                 </div>
-                                <div class="input-radio">
-                                    <input type="radio" name="payment" id="payment-2">
-                                    <label for="payment-2">
-                                        <span></span>
-                                        Cheque Payment
-                                    </label>
-                                    <div class="caption">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
-                                </div>
-                                <div class="input-radio">
-                                    <input type="radio" name="payment" id="payment-3">
-                                    <label for="payment-3">
-                                        <span></span>
-                                        Paypal System
-                                    </label>
-                                    <div class="caption">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor
-                                            incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
+                                <div class="order-col">
+                                    <div><strong>ПОВНА ЦІНА</strong></div>
+                                    <div><strong class="order-total">₴{{$order->calculateFullSum() + $forecast['result']['0']['Cost']}}</strong></div>
                                 </div>
                             </div>
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="terms">
-                                <label for="terms">
-                                    <span></span>
-                                    I've read and accept the <a href="#">terms & conditions</a>
-                                </label>
-                            </div>
+{{--                            <div class="payment-method">--}}
+{{--                                <div class="input-radio">--}}
+{{--                                    <input type="radio" name="payment" id="payment-1">--}}
+{{--                                    <label for="payment-1">--}}
+{{--                                        <span></span>--}}
+{{--                                        Direct Bank Transfer--}}
+{{--                                    </label>--}}
+{{--                                    <div class="caption">--}}
+{{--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod--}}
+{{--                                            tempor--}}
+{{--                                            incididunt ut labore et dolore magna aliqua.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="input-radio">--}}
+{{--                                    <input type="radio" name="payment" id="payment-2">--}}
+{{--                                    <label for="payment-2">--}}
+{{--                                        <span></span>--}}
+{{--                                        Cheque Payment--}}
+{{--                                    </label>--}}
+{{--                                    <div class="caption">--}}
+{{--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod--}}
+{{--                                            tempor--}}
+{{--                                            incididunt ut labore et dolore magna aliqua.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="input-radio">--}}
+{{--                                    <input type="radio" name="payment" id="payment-3">--}}
+{{--                                    <label for="payment-3">--}}
+{{--                                        <span></span>--}}
+{{--                                        Paypal System--}}
+{{--                                    </label>--}}
+{{--                                    <div class="caption">--}}
+{{--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod--}}
+{{--                                            tempor--}}
+{{--                                            incididunt ut labore et dolore magna aliqua.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="input-checkbox">--}}
+{{--                                <input type="checkbox" id="terms">--}}
+{{--                                <label for="terms">--}}
+{{--                                    <span></span>--}}
+{{--                                    I've read and accept the <a href="#">terms & conditions</a>--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
 
                             <input value='Продовжити' type="submit" class="primary-btn order-submit">
                         </div>

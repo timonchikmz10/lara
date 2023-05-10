@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,6 +14,9 @@ return new class extends Migration
             $table->id();
             $table->tinyInteger('status')->default(0);
             $table->string('name')->nullable();
+            $table->string('warehouse')->nullable();
+            $table->integer('weight')->nullable();
+            $table->integer('delivery_cost')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();
         });

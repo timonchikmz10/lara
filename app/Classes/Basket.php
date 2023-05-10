@@ -6,6 +6,7 @@ use App\Mail\OrderCreated;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\ProductProperty;
 use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -32,7 +33,7 @@ class Basket
         session(['count' => $count]);
     }
 
-    protected function getPivot($product, $property_id)
+    protected function getPivot($product, Int $property_id)
     {
 //        return $this->order->products()->where('product_id', $product->id)->first()->pivot;
 //        return $this->order->products()->wherePivot('color_id', '=', $property_id)->first()->pivot;
@@ -49,14 +50,19 @@ class Basket
         return $this->order;
     }
 
-    public function countAvailable($updateCount = false)
+    public function countAvailable(Bool $updateCount = false)
     {
         foreach ($this->order->products as $product) {
-            if ($product->count < $this->getPivot($product)->count) {
+            $productMain = Product::where('id', $product->pivot->product_id )->first();
+            $productPropertyCount = ProductProperty::where('product_id', $product->pivot->product_id)->where('property_id', $product->pivot->color_id )->first()->property_count;
+            if ($product->pivot->counter > $productPropertyCount) {
                 return false;
             }
             if ($updateCount) {
-                $product->count -= $this->getPivot($product)->count;
+                $productMain->update(['count' => $productMain->count - $product->pivot->counter ]);
+                $productMain->productProperties()
+                    ->where('property_id', $product->pivot->color_id)
+                    ->update(['property_count' => $productPropertyCount - $product->pivot->counter]);
             }
         }
         if ($updateCount) {
@@ -65,13 +71,13 @@ class Basket
         return true;
     }
 
-    public function saveOrder($request)
+    public function saveOrder($request, Array $params)
     {
         if (!$this->countAvailable(true)) {
             return false;
         }
         Mail::to(Auth::user()->email)->send(new OrderCreated($request->name, $this->getOrder()));
-        $this->order->saveOrder($request);
+        $this->order->saveOrder($request, $params);
         return true;
     }
 
@@ -95,8 +101,9 @@ class Basket
     public function addProduct(Product $product, int $count = 1, int $property_id)
     {
         if ($this->order->products()->wherePivot('color_id', '=', $property_id)->exists()) {
-            $counter = OrderProduct::where('order_id', $this->order->id)->where('product_id',
-                $product->id)->where('color_id', $property_id)->first();
+            $counter = OrderProduct::where('order_id', $this->order->id)
+                ->where('product_id', $product->id)
+                ->where('color_id', $property_id)->first();
             if ($counter->counter > $product->productProperties()->where('property_id',
                     $property_id)->first()->property_count) {
                 return false;
@@ -104,7 +111,7 @@ class Basket
             $counter->counter += $count;
             $counter->update();
         } else {
-            if ($product->count == 0 || $count > $product->count) {
+            if ($product->count == 0 || $count > ProductProperty::where('property_id', $property_id)->where('product_id', $product->id)->first()->property_count) {
                 return false;
             }
             $this->order->products()->attach($product->id, ['color_id' => $property_id, 'counter' => $count]);

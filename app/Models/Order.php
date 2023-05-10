@@ -23,7 +23,13 @@ class Order extends Model
 //    {
 //        return $this->hasManyThrough(Product::class)->withTimeStamps();
 //    }
-
+    public function orderWeight(){
+        $weight = 0;
+        foreach ($this->products as $orderProduct){
+            $weight += $orderProduct->weight * $orderProduct->pivot->counter;
+        }
+        return $weight / 1000;
+    }
     public function calculateFullSum()
     {
         $sum = 0;
@@ -77,19 +83,22 @@ class Order extends Model
         return $query->where('status', 0);
     }
 
-    public function saveOrder($r)
+    public function saveOrder($r, $params)
     {
         if ($this->status == 0) {
             $this->name = $r->name;
             $this->second_name = $r->second_name;
             $this->last_name = $r->last_name;
             $this->zip_code = $r->zip_code;
+            $this->weight = $this->orderWeight();
+            $this->warehouse = $params['warehouse'];
+            $this->delivery_cost = $params['delivery_cost'];
             $this->phone = $r->phone;
             $this->address = $r->address;
-            $this->city = $r->city;
+            $this->city = $params['city'];
             $this->email = Auth::user()->email;
             $this->notes = $r->notes;
-            $this->order_number = $r->order_number;
+//            $this->order_number = $r->order_number;
             $this->status = 1;
             if (Auth::check()) {
                 $this->user_id = Auth::id();

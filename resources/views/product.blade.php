@@ -96,8 +96,8 @@
                                         Колір
                                         <select class="input-select" name="property_id" id="property_id">
                                             @foreach($properties as $property)
-                                                <option
-                                                    value="{{$property->id}}">{{$property->title}}</option>
+                                                    <option
+                                                        value="{{$property->id}}">{{$property->title}}</option>
                                             @endforeach
                                         </select>
                                     </label>

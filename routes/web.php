@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\InfoController;
+use App\Http\Controllers\Info\AboutController;
+use App\Http\Controllers\Info\ContactController;
+use App\Http\Controllers\Info\PolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +27,9 @@ use App\Http\Controllers\CommentController;
 */
 Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
 Route::get('/', [MainController::class, 'index'])->name('index');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
+Route::get('/policy', [PolicyController::class, 'index'])->name('policy');
 Route::middleware('auth')->group(function () {
     Route::group([
         'prefix'=> 'person',
@@ -38,6 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('categories', CategoryController::class);
         Route::resource('products', ProductController::class);
         Route::resource('properties', PropertyController::class);
+        Route::resource('info', InfoController::class);
         Route::get('/orders', [OrderController::class, 'orders'])->name('dashboard');
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order-show');
     });
@@ -74,3 +82,4 @@ Route::group([
 });
 Route::get('/{category}', [MainController::class, 'category'])->name('category');
 Route::get('/{category}/{product?}', [MainController::class, 'product'])->name('product');
+

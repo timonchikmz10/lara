@@ -43,11 +43,16 @@
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
-            <ul class="header-links pull-left">
-                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
-            </ul>
+            @if(\App\Models\Info::first())
+                <ul class="header-links pull-left">
+                    <li><a href="{{route('contacts')}}"><i class="fa fa-phone"></i> {{\App\Models\Info::first()->phone}}
+                        </a></li>
+                    <li><a href="{{route('contacts')}}"><i
+                                class="fa fa-envelope-o"></i> {{\App\Models\Info::first()->email}}</a></li>
+                    <li><a href="{{route('contacts')}}"><i
+                                class="fa fa-map-marker"></i> {{\App\Models\Info::first()->address}}</a></li>
+                </ul>
+            @endif
             <ul class="header-links pull-right">
                 @auth
                     <li><a href="{{route('profile.edit')}}"><i class="fa fa-user-o"></i>{{Auth::user()->name}}</a></li>
@@ -65,11 +70,15 @@
             <div class="row">
                 <!-- LOGO -->
                 <div class="col-md-3">
-                    <div class="header-logo">
-                        <a href="{{ route('index') }}" class="logo">
-                            <img src="/img/logo3.png" alt="">
-                        </a>
-                    </div>
+                    @if(\App\Models\Info::first())
+                        @if(\App\Models\Info::first()->image)
+                            <div class="header-logo">
+                                <a href="{{ route('index') }}" class="logo">
+                                    <img src="{{Storage::url(\App\Models\Info::first()->image)}}" alt="">
+                                </a>
+                            </div>
+                        @endif
+                    @endif
                 </div>
                 <!-- /LOGO -->
 
@@ -125,16 +134,20 @@
                     @admin
                     <li><a href="{{Route('index')}}">На головну</a></li>
                     <li><a href="{{ route('dashboard') }}">Усі замовлення</a></li>
+                    <li><a href="{{route('info.index')}}">Загальна інформація</a></li>
                     <li><a href="{{route('categories.index')}}">Усі категорії</a></li>
                     <li><a href="{{route('products.index')}}">Усі продукти</a></li>
                     <li><a href="{{route('properties.index')}}">Усі артрібути</a></li>
                     <li><a href="{{route('profile.edit')}}">Змінити профіль</a></li>
-                    <li><a href="{{route('reset')}}">Онулювати налаштування</a></li>
+                    {{--                    <li><a href="{{route('reset')}}">Онулювати налаштування</a></li>--}}
                     @else
                         <li><a href="{{route('index')}}">На головну</a></li>
                         <li><a href="{{ route('profile.edit') }}">Профіль</a></li>
                         <li><a href="{{ route('profile-orders') }}">Ваші замовлення</a></li>
                         <li><a href="{{route('basket')}}">Кошик</a></li>
+                        <li><a href="{{route('contacts')}}">Контакти</a></li>
+                        <li><a href="{{route('about')}}">О нас</a></li>
+                        <li><a href="{{route('policy')}}">Політика магазину</a></li>
                         @endadmin
                         <li>
                             <a href="{{route('logout')}}"
@@ -174,26 +187,29 @@
             <div class="row">
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut.</p>
-                        <ul class="footer-links">
-                            <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                            <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                            <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
-                        </ul>
+                        @if(\App\Models\Info::first())
+                            <h3 class="footer-title">About Us</h3>
+                            <p>{{\App\Models\Info::first()->short_description}}</p>
+                            <ul class="footer-links">
+                                <li><a href="{{route('contacts')}}"><i
+                                            class="fa fa-map-marker"></i> {{\App\Models\Info::first()->address}}</a>
+                                </li>
+                                <li><a href="{{route('contacts')}}"><i
+                                            class="fa fa-envelope-o"></i> {{\App\Models\Info::first()->email}}</a></li>
+                                <li><a href="{{route('contacts')}}"><i
+                                            class="fa fa-phone"></i> {{\App\Models\Info::first()->phone}}</a></li>
+                            </ul>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Categories</h3>
+                        <h3 class="footer-title">Категорії</h3>
                         <ul class="footer-links">
-                            <li><a href="#">Hot deals</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Smartphones</a></li>
-                            <li><a href="#">Cameras</a></li>
-                            <li><a href="#">Accessories</a></li>
+                            @foreach(\App\Models\Category::all() as $category)
+                                <li><a href="{{route('category', $category->code)}}">{{$category->title}}</a></li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -202,26 +218,23 @@
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Information</h3>
+                        <h3 class="footer-title">Інформація</h3>
                         <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Orders and Returns</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="{{route('contacts')}}">Контакти</a></li>
+                            <li><a href="{{route('about')}}">О нас</a></li>
+                            <li><a href="{{route('policy')}}">Політика магазину</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Service</h3>
+                        <h3 class="footer-title">Сервіси</h3>
                         <ul class="footer-links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><a href="{{route('profile.edit')}}">Мій аккаунт</a></li>
+                            <li><a href="{{route('profile-orders')}}">Мої замовлення</a></li>
+                            <li><a href="{{route('basket')}}">Кошик</a></li>
+                            <li><a href="{{route('contacts')}}">Допомога</a></li>
                         </ul>
                     </div>
                 </div>

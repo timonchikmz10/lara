@@ -41,7 +41,7 @@ class CategoryController extends Controller
         }else{
          Category::create($request->all());
         }
-        session()->flash('success', 'Категорію ' . $request->title . ' створено.');
+        session()->flash('success', config('constants.CategotyDelete') . $request->title);
         return redirect()->route('categories.index');
     }
 
@@ -77,7 +77,7 @@ class CategoryController extends Controller
         } else {
             $category->update($request->all());
         }
-        session()->flash('success', 'Категорію ' . $request->title . ' оновлено.');
+        session()->flash('success', config('constants.CategotyEdit') . $request->title);
         return redirect()->route('categories.index');
     }
 
@@ -88,7 +88,7 @@ class CategoryController extends Controller
     {
         Storage::delete($category->image);
         $category->delete();
-        session()->flash('success', 'Категорія ' . $category->title . ' була видалена.');
+        session()->flash('success', config('constants.CategotyDelete') . $request->title);
         return redirect()->route('categories.index');
     }
 }

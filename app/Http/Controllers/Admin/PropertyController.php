@@ -32,7 +32,7 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         Property::create($request->all());
-        session()->flash('success', 'Колір ' . $request->property . ', успішно створено.');
+        session()->flash('success', config('constants.PropertyCreate') . $request->property);
         return redirect()->route('properties.index');
     }
 
@@ -58,7 +58,7 @@ class PropertyController extends Controller
     public function update(Request $request, Property $property)
     {
         $property->update($request->all());
-        session()->flash('success', 'Колір ' . $property->title . ', успішно онвленно.');
+        session()->flash('success', config('constants.PropertyEdit') . $request->property);
         return redirect()->route('properties.index');
     }
 
@@ -67,7 +67,7 @@ class PropertyController extends Controller
     public function destroy(Property $property)
     {
         $property->delete();
-        session()->flash('success', 'Колір ' . $property->title . ', був видалений з палітри кольорів');
+        session()->flash('success', config('constants.PropertyDelete') . $request->property);
         return redirect()->route('properties.index');
     }
 }

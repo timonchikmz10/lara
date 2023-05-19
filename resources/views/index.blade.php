@@ -172,30 +172,42 @@
     <!-- SECTION -->
 
     <!-- NEWSLETTER -->
-    <div id="newsletter" class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="newsletter">
-                        <ul class="newsletter-follow">
-                            <li>
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                            </li>
-                        </ul>
+    @if(\App\Models\Info::first())
+        @if(\App\Models\Info::first()->twiiter || \App\Models\Info::first()->instagram || \App\Models\Info::first()->facebook)
+        <div id="newsletter" class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="newsletter">
+                            <ul class="newsletter-follow">
+                                @if(\App\Models\Info::first()->facebook)
+                                    <li>
+                                        <a href="{{\App\Models\Info::first()->facebook}}"><i class="fa fa-facebook"></i></a>
+                                    </li>
+                                @endif
+                                @if(\App\Models\Info::first()->twitter)
+                                    <li>
+                                        <a href="{{\App\Models\Info::first()->twitter}}"><i
+                                                class="fa fa-twitter"></i></a>
+                                    </li>
+                                @endif
+                                @if(\App\Models\Info::first()->instagram)
+                                    <li>
+                                        <a href="{{\App\Models\Info::first()->instagram}}"><i
+                                                class="fa fa-instagram"></i></a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                <!-- /row -->
             </div>
-            <!-- /row -->
+            <!-- /container -->
         </div>
-        <!-- /container -->
-    </div>
+    @endif
+    @endif
     <!-- /NEWSLETTER -->
 @endsection

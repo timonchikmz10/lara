@@ -32,19 +32,31 @@
                     <h3 class="product-name"><a
                             href="{{route('product', [isset($category) ? $category->code : $product->category->code])}}">{{$product->title}}</a></h3>
                     @if($product->sale_price == 0)
-                        <h4 class="product-price">{{$product->price}}</h4>
+                        <h4 class="product-price">{{$product->price}} грн</h4>
                     @else
-                        <h4 class="product-price">{{$product->sale_price}}
+                        <h4 class="product-price">{{$product->sale_price}} грн
                             <del class="product-old-price">{{$product->price}}</del>
                         </h4>
                     @endif
-                    <div class="product-rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
+                    @if($product->rating() != 0)
+                        <div class="product-rating">
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i > $product->rating())
+                                    <i class="fa fa-star-o"></i>
+                                @else
+                                    <i class="fa fa-star"></i>
+                                @endif
+                            @endfor
+                        </div>
+                    @else
+                        <div class="product-rating">
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                    @endif
                     <div class="product-btns">
                         <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                 class="tooltipp">add to wishlist</span></button>

@@ -66,21 +66,22 @@
                         <h2 class="product-name">{{$product->title}}</h2>
                         <div>
                             <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i > $product->rating())
+                                        <i class="fa fa-star-o"></i>
+                                    @else
+                                        <i class="fa fa-star"></i>
+                                    @endif
+                                @endfor
                             </div>
-                            <a class="review-link" href="#">10 Review(s) | Add your review</a>
                         </div>
                         <div>
                             @if($product->sale_price > 0)
-                                <h3 class="product-price">$980.00
-                                    <del class="product-old-price">$990.00</del>
+                                <h3 class="product-price">{{$product->sale_price}} грн
+                                    <del class="product-old-price">{{$product->price}}</del>
                                 </h3>
                             @else
-                                <h3 class="product-price">$980.00</h3>
+                                <h3 class="product-price">{{$product_price}} грн</h3>
                             @endif
                             @if($product->isAvailable())
                                 <span class="product-available">В наявності</span>
@@ -129,10 +130,6 @@
                                 </div>
                             </form>
                         @endif
-                        <ul class="product-btns">
-                            <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-                            <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
-                        </ul>
 
                         <ul class="product-links">
                             <li>Категорія:</li>
@@ -141,13 +138,6 @@
                             </li>
                         </ul>
 
-                        <ul class="product-links">
-                            <li>Share:</li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                        </ul>
 
                     </div>
                 </div>

@@ -65,7 +65,7 @@ class ProductController extends Controller
                 $product->thumbnails()->create(['image' => $path]);
             }
         }
-        session()->flash('success', 'Товар ' . $request->title . ' було створено');
+        session()->flash('success', config('constants.ProductCreate') . $request->title);
         return redirect()->route('products.index');
     }
 
@@ -138,7 +138,7 @@ class ProductController extends Controller
                 $product->thumbnails()->create(['image' => $path]);
             }
         }
-        session()->flash('success', 'Товар ' . $request->title . ' було змінено');
+        session()->flash('success', config('constants.ProductEdit') . $request->title);
         return redirect()->route('products.index');
     }
 
@@ -149,7 +149,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        session()->flash('success', 'Товар ' . $product->title . ' був видален.');
+        session()->flash('success', config('constants.ProductDelete') . $request->title);
         return redirect()->route('products.index');
     }
 }

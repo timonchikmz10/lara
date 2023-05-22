@@ -1,5 +1,10 @@
 @extends('layouts.master')
-@section('title', 'Категорія: ' . $category->title)
+@section('meta')
+    @include('meta::manager', [
+        'description'   => 'Категорія ' . $category->title,
+    ])
+@endsection
+@section('title', "Категорія - " . $category->title)
 @section('content')
     <div class="section">
         <!-- container -->

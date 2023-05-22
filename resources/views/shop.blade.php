@@ -1,4 +1,8 @@
 @extends('layouts.master')
+@section('meta')
+    @include('meta::manager')
+@endsection
+@section('title' , 'Магазин автотоварів')
 @section('content')
 
     <!-- SECTION -->

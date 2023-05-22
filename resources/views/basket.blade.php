@@ -1,4 +1,9 @@
 @extends('layouts.master')
+@section('meta')
+    @include('meta::manager', [
+        'description'   => 'Autozone - Магазин атвотоварів, корзина',
+    ])
+@endsection
 @section('title', 'Кошик')
 @section('content')
     <main class="page">

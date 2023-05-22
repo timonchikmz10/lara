@@ -1,4 +1,12 @@
 @extends('layouts.master')
+@section('meta')
+    @include('meta::manager', [
+        'title' =>  $product->title . " Категорія - " . $product->category->title . ' Autozone - Магазин автотоварів',
+        'description'   => 'Autozone - Магазиг автотоварів Категорія ' . $product->category->title . ' ' . $product->title,
+        'keywords' => $product->title . $product->category->title .
+          'Чохли Чехлы Чохол Чехол Обплетення Оплетки Руль Україна Украина Доставка Autozone Автозона Автозон'
+    ])
+@endsection
 @section('title', $product->title)
 @section('content')
     <!-- BREADCRUMB -->
@@ -81,7 +89,7 @@
                                     <del class="product-old-price">{{$product->price}}</del>
                                 </h3>
                             @else
-                                <h3 class="product-price">{{$product_price}} грн</h3>
+                                <h3 class="product-price">{{$product->price}} грн</h3>
                             @endif
                             @if($product->isAvailable())
                                 <span class="product-available">В наявності</span>

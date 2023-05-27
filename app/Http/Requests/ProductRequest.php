@@ -27,9 +27,10 @@ class ProductRequest extends FormRequest
             'description' => 'required|min:5',
             'short_description' => 'required|min:5',
             'category_id' => 'required',
+            'size' =>'required|min:1',
             'price' => 'required|numeric|min:1',
+            'weight' => 'required|numeric|min:1',
             'sale_price' => 'nullable|numeric|min:0',
-            'weight' =>'numeric|min:1',
         ];
         if ($this->route()->named('products.update')) {
             $rules['code'] .= ',' . $this->route()->parameter('product')->id;

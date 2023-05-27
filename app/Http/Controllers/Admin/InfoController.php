@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InfoRequest;
 use App\Models\Info;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -37,7 +38,7 @@ class InfoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InfoRequest $request)
     {
         $params = $request->all();
         if($request->has('image')) {
@@ -68,7 +69,7 @@ class InfoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Info $info)
+    public function update(InfoRequest $request, Info $info)
     {
         $params = $request->all();
         if($request->has('image')){

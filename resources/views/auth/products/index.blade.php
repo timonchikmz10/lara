@@ -29,10 +29,12 @@
         <div class="container">
             <!-- row -->
             <div class="row">
-                <a style="float:right;" type="submit" href="{{route('products.create')}}" class="butt">Створити товар</a>
+                <a style="float:right;" type="submit" href="{{route('products.create')}}" class="butt">Створити
+                    товар</a>
                 <div class="col-md-12">
                     @foreach($products as $product)
-                        <h1><a href="{{route('product', [$product->category, $product->code])}}">{{$product->title}}</a></h1>
+                        <h1><a href="{{route('product', [$product->category, $product->code])}}">{{$product->title}}</a>
+                        </h1>
                         <table class="table">
                             <tbody>
                             <tr>
@@ -56,8 +58,8 @@
                                 <td>{{ $product->title}}</td>
                             </tr>
                             <tr>
-                                <td>Категорія(id)</td>
-                                <td>{{ $product->category->title}}({{$product->category->id}})</td>
+                                <td>Категорія</td>
+                                <td>{{ $product->category->title}}</td>
                             </tr>
                             <tr>
                                 <td>Статус NEW:</td>
@@ -67,15 +69,6 @@
                                     @else
                                         ні
                                     @endif</td>
-                            </tr>
-                            <tr>
-                                <td>Опис</td>
-                                <td>{{ $product->description }}</td>
-                            </tr>
-                            <tr>
-                                <td>Короткий опис</td>
-                                <td>{{ $product->short_description }}
-                                </td>
                             </tr>
                             <tr>
                                 <td>Ціна:</td>
@@ -88,6 +81,18 @@
                             <tr>
                                 <td>Кількість товару:</td>
                                 <td>{{ $product->count }}</td>
+                            </tr>
+                            <tr>
+                                <td>Вага у грамах:</td>
+                                <td>{{ $product->weight }}</td>
+                            </tr>
+                            <tr>
+                                <td>Кольори:</td>
+                                <td>
+                                    @foreach($product->productProperties as $property)
+                                        {{\App\Models\Property::where('id',$property->property_id )->first()->title}},
+                                    @endforeach
+                                </td>
                             </tr>
                             <tr>
                                 <td>Створено:</td>

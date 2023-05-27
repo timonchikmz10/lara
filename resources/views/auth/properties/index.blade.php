@@ -53,14 +53,6 @@
                                 <td>{{ $property->id }}</td>
                             </tr>
                             <tr>
-                                <td>RGB код</td>
-                                <td>{{ $property->rgb_code }}</td>
-                            </tr>
-                            <tr>
-                                <td>Розір</td>
-                                <td>{{ $property->size_title}}</td>
-                            </tr>
-                            <tr>
                                 <td>Назва</td>
                                 <td>{{ $property->title}}</td>
                             </tr>

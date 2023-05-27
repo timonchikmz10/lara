@@ -18,7 +18,8 @@ class OrdersController extends Controller
     public function show(Order $order)
     {
         if (Auth::user()->orders->contains($order)) {
-            return view('auth.orders.show', compact('order'));
+            $products = $order->products()->withTrashed()->get();
+            return view('auth.orders.show', compact('order', 'products'));
         } else {
             return redirect()->back();
         }

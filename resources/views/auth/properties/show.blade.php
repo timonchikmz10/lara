@@ -47,10 +47,6 @@
                             <td>{{ $property->id }}</td>
                         </tr>
                         <tr>
-                            <td>Rgb код</td>
-                            <td>{{ $property->rgb_code }}</td>
-                        </tr>
-                        <tr>
                             <td>Назва</td>
                             <td>{{ $property->title}}</td>
                         </tr>

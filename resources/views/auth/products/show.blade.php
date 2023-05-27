@@ -82,6 +82,14 @@
                             <td>Вага у грамах:</td>
                             <td>{{$product->weight}}</td>
                         </tr>
+                        <tr>
+                            <td>Кольори:</td>
+                            <td>
+                                @foreach($product->productProperties as $property)
+                                    {{\App\Models\Property::where('id',$property->property_id )->first()->title}},
+                                @endforeach
+                            </td>
+                        </tr>
                         <a style='background-color: #e8a93a' type="button"
                            href="{{route('products.edit', $product)}}" class="but">Змінити товар
                         </a>

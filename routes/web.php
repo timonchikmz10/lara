@@ -33,7 +33,8 @@ Route::get('/policy', [PolicyController::class, 'index'])->name('policy');
 Route::middleware('auth')->group(function () {
     Route::group([
         'prefix'=> 'person',
-        'namespace'=>'Person'
+        'namespace'=>'Person',
+        'middleware'=>['verified'],
     ], function (){
         Route::get('/orders', [OrdersController::class, 'orders'])->name('profile-orders');
         Route::get('/orders/{order}', [OrdersController::class, 'show'])->name('profile-order-show');

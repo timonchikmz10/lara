@@ -26,6 +26,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 100,
                 'sale_price' => 90,
+                'size' => 'XL',
                 'new' => 1
             ],
             [
@@ -39,6 +40,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 200,
                 'sale_price' => 0,
+                'size' => 'XL',
                 'new' => 0
             ],
             [
@@ -52,6 +54,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 300,
                 'sale_price' => 0,
+                'size' => 'XL',
                 'new' => 0
             ],
             [
@@ -65,6 +68,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 100,
                 'sale_price' => 90,
+                'size' => 'XL',
                 'new' => 1
             ],
             [
@@ -78,6 +82,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 200,
                 'sale_price' => 0,
+                'size' => 'XL',
                 'new' => 0
             ],
             [
@@ -91,6 +96,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 300,
                 'sale_price' => 0,
+                'size' => 'XL',
                 'new' => 0
             ],
             [
@@ -104,6 +110,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 100,
                 'sale_price' => 90,
+                'size' => 'XL',
                 'new' => 1
             ],
             [
@@ -118,6 +125,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 200,
                 'sale_price' => 0,
+                'size' => 'XL',
                 'new' => 0
             ],
             [
@@ -131,6 +139,7 @@ class ProductsTableSeeder extends Seeder
                 'description' => 'Опис товару',
                 'price' => 300,
                 'sale_price' => 0,
+                'size' => 'XL',
                 'new' => 0
             ],
         ]);

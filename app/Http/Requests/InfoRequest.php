@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PropertyRequest extends FormRequest
+class InfoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,20 +22,22 @@ class PropertyRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title' => 'required|min:3|max:100|unique:properties,title',
+            'phone' => 'required|min:6|max:15',
+            'email' => 'required|min:6|max:50',
+            'address' => 'required|min:6|max:50',
+            'description' => 'required|min:5',
+            'short_description' => 'required|min:5|max:300',
+            'privacy_policy' => 'required|min:100'
         ];
-        if ($this->route()->named('properties.update')) {
-            $rules['title'] .= ',' . $this->route()->parameter('property')->id;
-        }
         return $rules;
     }
+
     public function messages()
     {
         return [
             'required' => '* Поле :attribute не може бути порожнім',
             'min' => '* Поле :attribute повинно містити не менше :min символів',
             'max' => '* Поле :attribute повинно містити не більше :max символів',
-            'unique' =>'* Поле :attribute повторюється з іншими категоріями'
         ];
     }
 }

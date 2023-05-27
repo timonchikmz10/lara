@@ -102,6 +102,12 @@
                                            value="{{old('sale_price', $product->sale_price)}}">
                                 </div>
                                 <div class="form-group">
+                                    <label for="size">Розмір</label>
+                                    @include('layouts.errors', ['fieldName'=>'size'])
+                                    <input class="input" type="text" name="size" id="size"
+                                           value="{{old('size', $product->size)}}">
+                                </div>
+                                <div class="form-group">
                                     <div class="row">
                                         @foreach($properties as $property)
                                             @if($product->productProperties()->where('property_id', $property->id)->first())
@@ -252,6 +258,12 @@
                                     @include('layouts.errors', ['fieldName'=>'sale_price'])
                                     <input class="input" type="text" name="sale_price" id="sale_price"
                                            value="{{old('sale_price')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="size">Розмір</label>
+                                    @include('layouts.errors', ['fieldName'=>'size'])
+                                    <input class="input" type="text" name="size" id="size"
+                                           value="{{old('size')}}">
                                 </div>
                                 {{--                                <div class="form-group">--}}
                                 {{--                                    <label for="property_id">Розмір</label>--}}

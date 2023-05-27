@@ -23,7 +23,6 @@ class BasketController extends Controller
     public function orderConfirm(String $cityTitle, String $warehouseTitle, String $cost,  Request $request)
     {
         $params = ['delivery_cost' => intval($cost), 'city' => $cityTitle, 'warehouse' => $warehouseTitle];
-//        $params['city'] =
         if ((new Basket())->saveOrder($request, $params)) {
             session()->flash('success', 'Ваше замовлення чекає підтвердження.');
             Order::eraseOrderSum();
@@ -47,9 +46,10 @@ class BasketController extends Controller
 
     public function basketAdd(Product $product, Request $request)
     {
-        $property_id = $request->property_id;
         $product = Product::with('productProperties')->where('id', $product->id)->first();
-        $result = (new Basket(true))->addProduct($product, $request->count != null ? $request->count : 1, $property_id);
+        $request->property_id != null ? $property_id = $request->property_id : $property_id = $product->productProperties()->first()->property_id;
+        $result = (new Basket(true))->addProduct($product, $request->count != null ? $request->count : 1,
+            $property_id);
         if ($result) {
             session()->flash('success', $product->title . config('constants.BasketAdd.success'));
             return redirect()->route('basket');

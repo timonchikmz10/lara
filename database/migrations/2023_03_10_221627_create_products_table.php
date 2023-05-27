@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('code');
             $table->integer('weight');
-            $table->integer('color')->nullable();
+            $table->string('size');
             $table->text('short_description')->nullable();
             $table->double('price')->default(0);
             $table->double('sale_price')->default(0);

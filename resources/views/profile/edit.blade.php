@@ -24,9 +24,6 @@
                 <div class="form-group">
                     @include('profile.partials.update-password-form')
                 </div>
-                <div class="form-group">
-                    @include('profile.partials.delete-user-form')
-                </div>
             </div>
         </div>
     </div>

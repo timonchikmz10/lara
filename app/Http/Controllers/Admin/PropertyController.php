@@ -21,7 +21,7 @@ class PropertyController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(PropertyRequest $request)
+    public function create()
     {
         return view('auth.properties.form');
     }
@@ -29,7 +29,7 @@ class PropertyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PropertyRequest $request)
     {
         Property::create($request->all());
         session()->flash('success', config('constants.PropertyCreate') . $request->property);
@@ -55,7 +55,7 @@ class PropertyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Property $property)
+    public function update(PropertyRequest $request, Property $property)
     {
         $property->update($request->all());
         session()->flash('success', config('constants.PropertyEdit') . $request->property);
@@ -66,8 +66,8 @@ class PropertyController extends Controller
 //     * Remove the specified resource from storagproperty
     public function destroy(Property $property)
     {
+        session()->flash('success', config('constants.PropertyDelete') . $property->title);
         $property->delete();
-        session()->flash('success', config('constants.PropertyDelete') . $request->property);
         return redirect()->route('properties.index');
     }
 }

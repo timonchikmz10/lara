@@ -6,9 +6,6 @@
             Редагувати профіль
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
-            Вы можете змінити ваше ім'я та email адрес
-        </p>
     </header>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
@@ -59,7 +56,7 @@
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                >Змінено</p>
             @endif
         </div>
     </form>

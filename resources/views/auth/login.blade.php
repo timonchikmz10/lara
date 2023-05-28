@@ -180,8 +180,8 @@
                             <input type="checkbox" id="remember_me" name="remember"/>
                             <label for="remember_me"></label>
                         </div>
-                        <span class="text">{{ __('Remember me') }}</span>
-                        <button type="submit" class="btn btn-default">{{ __('Log in') }}</button>
+                        <span class="text">Запам'ятати мене</span>
+                        <button type="submit" class="btn btn-default">Увійти</button>
                     </div>
                     @if (Route::has('password.request'))
                         <a class="forgot-link" style="margin-top: 10px"

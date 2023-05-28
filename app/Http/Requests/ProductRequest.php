@@ -46,7 +46,7 @@ class ProductRequest extends FormRequest
             'min' => '* Поле :attribute повинно містити не менше :min символів',
             'max' => '* Поле :attribute повинно містити не більше :max символів',
             'unique' => '* Поле :attribute повторюється з іншими продуктами',
-            'numeric' => 'Поле :attribute повинно містити тільки числові значення'
+            'numeric' => '* Поле :attribute повинно містити тільки числові значення'
         ];
     }
 }

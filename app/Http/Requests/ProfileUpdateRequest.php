@@ -20,4 +20,12 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }
+    public function messages(){
+        return [
+            'string' => '* Поле :attribute не може містити тільки числові значення',
+            'max' => '* Поле :attribute не повинно містити стільки символів',
+            'email' => '* Вкажіть коректний адрес електронної пошти',
+            'unique' => '* Користувач з таким email вже існує'
+        ];
+    }
 }
